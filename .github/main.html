@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form action="/games">
+        <div>
+            <input type="text" id="sport_form" name="sport" placeholder="Sport" value="{{search_terms.sport}}"/><br><br>
+        </div>
+        <div>
+            <input type="text" id="college_form" name="college" placeholder="College" value="{{search_terms.college}}"/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+        </div>
+
+        <div>
+            <button>Submit</button>
+        </div>
+    </form>
+
+</body>
+</html>
