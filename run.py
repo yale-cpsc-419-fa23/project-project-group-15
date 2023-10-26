@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__, template_folder='.')
 
@@ -18,3 +18,20 @@ def games():
     print(terms)
     return render_template('games.html', terms=terms)
 
+@app.route('/get_events')
+def get_events():
+    # Fetch events from database
+
+    #Assign to events variable like this
+    events = [
+        {
+            'title': 'Event 1',
+            'start': '2023-10-27'
+        },
+        {
+            'title': 'Event 2',
+            'start': '2023-10-28'
+        }
+        # Add more events as needed
+    ]
+    return jsonify(events)
