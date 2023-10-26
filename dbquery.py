@@ -1,6 +1,7 @@
 import argparse
 import sqlite3 as sql
 from contextlib import closing
+import random
 
 def create_database():
     ex_statements=[]
@@ -84,6 +85,7 @@ def create_database():
 def fill_database():
     fill_colleges()
     fill_players()
+    fill_games()
 
 def fill_colleges():
     real_colleges=[
@@ -196,6 +198,87 @@ def fill_players():
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
 
+def fill_games():
+    sports = [
+        "Archery",
+        "Badminton",
+        "Basketball",
+        "Boxing",
+        "Cycling",
+        "Diving",
+        "Equestrian",
+        "Fencing",
+        "Gymnastics",
+        "Judo"
+    ]
+
+    locations = [
+        "Tilted Towers",
+        "Pleasant Park",
+        "Retail Row",
+        "Lazy Lake",
+        "Craggy Cliffs",
+        "Steamy Stacks",
+        "Holly Hedges",
+        "Misty Meadows",
+        "Slurpy Swamp",
+        "Weeping Woods"
+    ]
+
+    times = [
+        "2023-11-01 08:15:32",
+        "2023-11-05 12:24:45",
+        "2023-11-10 15:34:56",
+        "2023-11-15 18:45:10",
+        "2023-11-20 20:55:23",
+        "2023-11-25 11:05:35",
+        "2023-11-28 14:12:47",
+        "2023-11-29 10:23:50",
+        "2023-11-30 13:33:01",
+        "2023-11-30 23:43:15"
+    ]
+
+    for s,l,t in zip(sports, locations, times):
+        college1, college2=tuple(random.sample([i for i in range(14)], 2))
+        add_game(l, s, t, college1, college2)
+
+
+def add_game(location, sport, time, college1, college2):
+    ex_statement = f'''
+                SELECT COUNT(*) from games
+                '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            num_games=int(data[0][0])
+
+    ex_statement = f'''
+                INSERT INTO games(id, location, time, sport)
+                VALUES 
+
+                ({num_games}, "{location}", "{time}",  "{sport}")
+                '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+
+    ex_statement = f'''
+                    INSERT INTO colleges_games(c_id, g_id)
+                    VALUES 
+
+                    ({college1}, {num_games}),
+                    ({college2}, {num_games})
+                    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
 
 
 create_database()
