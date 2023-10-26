@@ -245,3 +245,14 @@ cython_debug/
 #
 ## Android studio 3.1+ serialized cache file
 #.idea/caches/build_file_checksums.ser
+cpsc419-project/bin/activate
+cpsc419-project/bin/activate.csh
+cpsc419-project/bin/activate.fish
+cpsc419-project/bin/Activate.ps1
+cpsc419-project/bin/pip
+cpsc419-project/bin/pip3
+cpsc419-project/bin/pip3.11
+cpsc419-project/bin/python
+cpsc419-project/bin/python3
+cpsc419-project/bin/python3.11
+cpsc419-project/pyvenv.cfg
