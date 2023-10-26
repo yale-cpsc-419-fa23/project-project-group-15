@@ -84,8 +84,9 @@ def create_database():
 
 def fill_database():
     fill_colleges()
-    fill_players()
     fill_games()
+    fill_players()
+
 
 def fill_colleges():
     real_colleges=[
@@ -186,17 +187,11 @@ def fill_players():
 
     names=[f'{f} {l}' for f,l in zip(first_names, last_names)]
 
-    ex_statement = f'''
-        INSERT INTO players(id, name, college)
-        VALUES 
-
-        {', '.join([f'({i}, "{n}", {i%14})' for i, n in enumerate(names)])};
-        '''
-
-    # print(ex_statement)
-    with sql.connect("intramural.sqlite") as conn:
-        with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+    for i,n in enumerate(names):
+        id=add_players(n,  i%14)
+        games=get_possible_games(id)
+        for g in games:
+            sign_up_player(id, g)
 
 def fill_games():
     sports = [
@@ -268,17 +263,94 @@ def add_game(location, sport, time, college1, college2):
             cursor.execute(ex_statement)
 
     ex_statement = f'''
-                    INSERT INTO colleges_games(c_id, g_id)
-                    VALUES 
+    INSERT INTO colleges_games(c_id, g_id)
+    VALUES 
 
-                    ({college1}, {num_games}),
-                    ({college2}, {num_games})
+    ({college1}, {num_games}),
+    ({college2}, {num_games})
+    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+
+
+
+def add_players(name, college):
+    ex_statement = f'''
+                    SELECT COUNT(*) from players
                     '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            num_players = int(data[0][0])
+
+
+    ex_statement = f'''
+            INSERT INTO players(id, name, college)
+            VALUES 
+
+            ({num_players}, "{name}", {college});
+            '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+
+    return num_players
+
+
+
+def sign_up_player(p_id, g_id):
+    ex_statement = f'''
+    INSERT INTO players_games(p_id, g_id)
+    VALUES 
+
+    ({p_id}, {g_id})
+    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+
+
+def get_college(p_id):
+    ex_statement = f'''
+        SELECT college FROM
+        players
+
+        WHERE id={p_id}
+        '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            return int(data[0][0])
+
+def get_possible_games(p_id, start=None, end=None):
+    ex_statement = f'''
+    SELECT g_id FROM
+    colleges_games
+    
+    WHERE c_id={get_college(p_id)}
+    
+    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            return [int(d[0]) for d in data]
+
 
 
 create_database()
