@@ -20,7 +20,7 @@ def games():
 
 @app.route('/get_events')
 def get_events():
-    # Fetch events from database
+    #Fetch events from database
 
     #Assign to events variable like this
     events = [
