@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import sqlite3
 
 app = Flask(__name__, template_folder='.')
 
@@ -22,16 +23,22 @@ def games():
 def get_events():
     #Fetch events from database
 
-    #Assign to events variable like this
-    events = [
-        {
-            'title': 'Event 1',
-            'start': '2023-10-27'
-        },
-        {
-            'title': 'Event 2',
-            'start': '2023-10-28'
-        }
-        # Add more events as needed
-    ]
+    connection = sqlite3.connect("intramural.sqlite")
+    crsr = connection.cursor()
+
+    query = " SELECT sport, time FROM games"
+
+    crsr.execute(query)
+    summary = crsr.fetchall()
+    #print(summary)
+    events = []
+    for game in summary:
+        game_title = game[0]
+        game_date = game[1][:10]
+
+        events.append({
+            'title': game_title,
+            'start': game_date
+        })
+
     return jsonify(events)
