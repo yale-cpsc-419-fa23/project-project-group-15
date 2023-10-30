@@ -354,11 +354,23 @@ def get_possible_games(p_id, start=None, end=None):
             return [int(d[0]) for d in data]
 
 def create_winners(college):
+    ex_statement = f'''
+                    SELECT COUNT(*) from games
+                    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            num_games = int(data[0][0])
+
+
     ex_statement=f'''
     UPDATE colleges_games
-    SET winner = TRUE
-    WHERE
-    UPPER(c_id)=UPPER('{college}')
+    SET winner = 1
+    
+    WHERE g_id<{num_games//2}
     '''
 
     with sql.connect("intramural.sqlite") as conn:
