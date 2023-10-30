@@ -15,14 +15,27 @@ def main_page():
 def games():
 
     terms = {}
-    terms['game'] = request.args['sport']
-    terms['college'] = request.args['college']
-    terms['start_date'] = request.args['start_date']
-    terms['end_date'] = request.args['end_date']
+    try:
+        terms['sport'] =request.args['sport']
+    except BadRequestKeyError:
+        terms['sport'] =request.cookies.get('s') or ''
+    try:
+        terms['college']=request.args['college']
+    except BadRequestKeyError:
+        terms['college']=request.cookies.get('c') or ''
+    try:
+        terms['start_date']=request.args['start_date']
+    except BadRequestKeyError:
+        terms['start_date']=request.cookies.get('sd') or ''
+    try:
+        terms['end_date']=request.args['end_date']
+    except BadRequestKeyError:
+        terms['end_date']=request.cookies.get('ed') or ''
+
     print(terms)
 
-    resp = make_response(render_template('games.html', terms=terms))
-    resp.set_cookie('g', terms['game'])
+    resp = make_response(render_template('games.html', search_terms=terms))
+    resp.set_cookie('s', terms['sport'])
     resp.set_cookie('c', terms['college'])
     resp.set_cookie('sd', terms['start_date'])
     resp.set_cookie('ed', terms['end_date'])
@@ -34,7 +47,7 @@ def get_events():
     #Fetch events from database
     events = []
 
-    game = request.cookies.get('g')
+    game = request.cookies.get('s')
     college = request.cookies.get('c')
     start = request.cookies.get('sd')
     end = request.cookies.get('ed')

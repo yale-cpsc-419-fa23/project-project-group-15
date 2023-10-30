@@ -28,7 +28,7 @@ def search_games(args):
 
         if where_clause:
             where_clause = where_clause[:-4]
-            # where_clause = 'WHERE ' + where_clause
+            where_clause = 'HAVING ' + where_clause
 
         return where_clause, terms
 
@@ -41,10 +41,10 @@ def search_games(args):
     games JOIN colleges_games on games.id = colleges_games.g_id
     
     group by games.id
-    HAVING 
     {where_clause}
     '''
-
+    print(ex_statement)
+    print(terms)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
             # print(ex_statement)

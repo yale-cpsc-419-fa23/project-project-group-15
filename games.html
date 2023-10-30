@@ -33,10 +33,26 @@
     </script>
 </head>
 <body>
-  <h1>Sport: {{terms.game}}</h1>
-  <h1>College: {{terms.college}}</h1>
-  <h1>Start Date: {{terms.start_date}}</h1>
-  <h1>End Date: {{terms.end_date}}</h1>
+  <form action="/games">
+        <div>
+            <input type="text" id="sport_form" name="sport" placeholder="Sport" value="{{search_terms.sport}}"/><br><br>
+        </div>
+        <div>
+            <input type="text" id="college_form" name="college" placeholder="College" value="{{search_terms.college}}"/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+        </div>
+
+        <div>
+            <button>Submit</button>
+        </div>
+  </form>
 
   <!--Calendar Test-->
   <div id='calendar'; width: 80%;></div>
