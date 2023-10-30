@@ -12,8 +12,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE colleges(
-    id INT PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL
+    id TEXT PRIMARY KEY NOT NULL
     );
     ''')
 
@@ -26,7 +25,8 @@ def create_database():
     id INT PRIMARY KEY NOT NULL,
     location TEXT,
     time TEXT,
-    sport TEXT
+    sport TEXT,
+    winner TEXT
     );
         ''')
 
@@ -36,9 +36,8 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE colleges_games(
-    c_id INT NOT NULL,
+    c_id TEXT NOT NULL,
     g_id INT NOT NULL,
-    winner INT DEFAULT FALSE,
     score INT,
     FOREIGN KEY(c_id) REFERENCES colleges(id),
     FOREIGN KEY(g_id) REFERENCES  games(id),
@@ -54,7 +53,7 @@ def create_database():
     CREATE TABLE players(
         id INT PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
-        college INT NOT NULL,
+        college TEXT NOT NULL,
         FOREIGN KEY(college) REFERENCES colleges(id)
     );
         ''')
@@ -67,7 +66,7 @@ def create_database():
     CREATE TABLE players_games(
         p_id INT NOT NULL,
         g_id INT NOT NULL,
-        FOREIGN KEY(p_id) REFERENCES colleges(id),
+        FOREIGN KEY(p_id) REFERENCES players(id),
         FOREIGN KEY(g_id) REFERENCES  games(id),
         PRIMARY KEY(p_id, g_id)
     );
@@ -124,10 +123,10 @@ def fill_colleges():
     ]
 
     ex_statement=f'''
-    INSERT INTO colleges(id, name)
+    INSERT INTO colleges(id)
     VALUES 
     
-    {', '.join([f'({i}, "{n}")' for i,n in enumerate(real_colleges)])};
+    {', '.join([f'("{n}")' for n in real_colleges])};
     '''
 
     # print(ex_statement)
