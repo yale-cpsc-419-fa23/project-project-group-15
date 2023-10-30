@@ -25,8 +25,7 @@ def create_database():
     id INT PRIMARY KEY NOT NULL,
     location TEXT,
     time TEXT,
-    sport TEXT,
-    winner TEXT
+    sport TEXT
     );
         ''')
 
@@ -39,6 +38,7 @@ def create_database():
     c_id TEXT NOT NULL,
     g_id INT NOT NULL,
     score INT,
+    winner INT,
     FOREIGN KEY(c_id) REFERENCES colleges(id),
     FOREIGN KEY(g_id) REFERENCES  games(id),
     PRIMARY KEY(c_id, g_id)
@@ -85,6 +85,8 @@ def fill_database():
     fill_colleges()
     fill_games()
     fill_players()
+    create_winners('Davenport')
+    create_winners('Jonathan Edwards')
 
 
 def fill_colleges():
@@ -232,9 +234,10 @@ def fill_games():
         'Trumbull'
     ]
 
-    for s,l,t in zip(sports, locations, times):
-        college1, college2=tuple(random.sample(colleges, 2))
-        add_game(l, s, t, college1, college2)
+    for l,t in zip(locations, times):
+        for s in sports:
+            college1, college2=tuple(random.sample(colleges, 2))
+            add_game(l, s, t, college1, college2)
 
 
 def add_game(location, sport, time, college1, college2):
@@ -349,6 +352,20 @@ def get_possible_games(p_id, start=None, end=None):
             cursor.execute(ex_statement)
             data = cursor.fetchall()
             return [int(d[0]) for d in data]
+
+def create_winners(college):
+    ex_statement=f'''
+    UPDATE colleges_games
+    SET winner = TRUE
+    WHERE
+    UPPER(c_id)=UPPER('{college}')
+    '''
+
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
 
 
 

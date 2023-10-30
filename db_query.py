@@ -50,15 +50,41 @@ def search_games(args):
             # print(ex_statement)
             cursor.execute(ex_statement, terms)
             data = cursor.fetchall()
-            print(data)
 
+    return data
+
+
+def get_college_ranking():
+    ex_statement='''
+    SELECT c_id, COUNT(*) as 'wins'
+    
+    FROM
+    
+    colleges_games
+    
+    WHERE winner=TRUE
+    
+    GROUP BY c_id
+    ORDER BY wins DESC
+    
+    
+    '''
+
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+
+    return data
 
 if __name__=='__main__':
     args = {
         'sport': '',
-        'college': 'b',
+        'college': 'davenport',
         'start_time': '',
         'end_time': ''
     }
 
-    search_games(args)
+    print(search_games(args))
+    print(get_college_ranking())
