@@ -38,7 +38,10 @@ def get_events():
 
         events.append({
             'title': game_title,
-            'start': game_date
+            'start': game_date,
+            'extendedProps': {
+                'description': "Your additional data here"
+            }
         })
 
     return jsonify(events)
