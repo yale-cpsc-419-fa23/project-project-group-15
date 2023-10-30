@@ -88,7 +88,7 @@ def fill_database():
 
 
 def fill_colleges():
-    real_colleges=[
+    colleges=[
         'Benjamin Franklin',
         'Berkeley',
         'Branford',
@@ -105,28 +105,11 @@ def fill_colleges():
         'Trumbull'
     ]
 
-    fake_colleges = [
-        "Fluffleworth",
-        "Wobblestone",
-        "Gigglington",
-        "Noodlewood",
-        "Tumbleton",
-        "Quizzical",
-        "Spindlewhack",
-        "Blibberfudge",
-        "Doodlefern",
-        "Puffington",
-        "Wibblywobble",
-        "Flibberjig",
-        "Snickerdoodle",
-        "Whimsickle"
-    ]
-
     ex_statement=f'''
     INSERT INTO colleges(id)
     VALUES 
     
-    {', '.join([f'("{n}")' for n in real_colleges])};
+    {', '.join([f'("{n}")' for n in colleges])};
     '''
 
     # print(ex_statement)
@@ -232,8 +215,25 @@ def fill_games():
         "2023-11-30 23:43:15"
     ]
 
+    colleges = [
+        'Benjamin Franklin',
+        'Berkeley',
+        'Branford',
+        'Davenport',
+        'Ezra Stiles',
+        'Grace Hopper',
+        'Jonathan Edwards',
+        'Morse College',
+        'Pauli Murray',
+        'Pierson',
+        'Saybrook',
+        'Silliman',
+        'Timothy Dwight',
+        'Trumbull'
+    ]
+
     for s,l,t in zip(sports, locations, times):
-        college1, college2=tuple(random.sample([i for i in range(14)], 2))
+        college1, college2=tuple(random.sample(colleges, 2))
         add_game(l, s, t, college1, college2)
 
 
@@ -265,8 +265,8 @@ def add_game(location, sport, time, college1, college2):
     INSERT INTO colleges_games(c_id, g_id)
     VALUES 
 
-    ({college1}, {num_games}),
-    ({college2}, {num_games})
+    ("{college1}", {num_games}),
+    ("{college2}", {num_games})
     '''
 
     # print(ex_statement)
