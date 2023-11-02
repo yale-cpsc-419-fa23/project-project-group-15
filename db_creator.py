@@ -12,8 +12,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE colleges(
-    id INT PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL
+    id TEXT PRIMARY KEY NOT NULL
     );
     ''')
 
@@ -36,10 +35,10 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE colleges_games(
-    c_id INT NOT NULL,
+    c_id TEXT NOT NULL,
     g_id INT NOT NULL,
-    winner INT DEFAULT FALSE,
     score INT,
+    winner INT,
     FOREIGN KEY(c_id) REFERENCES colleges(id),
     FOREIGN KEY(g_id) REFERENCES  games(id),
     PRIMARY KEY(c_id, g_id)
@@ -54,7 +53,7 @@ def create_database():
     CREATE TABLE players(
         id INT PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
-        college INT NOT NULL,
+        college TEXT NOT NULL,
         FOREIGN KEY(college) REFERENCES colleges(id)
     );
         ''')
@@ -67,7 +66,7 @@ def create_database():
     CREATE TABLE players_games(
         p_id INT NOT NULL,
         g_id INT NOT NULL,
-        FOREIGN KEY(p_id) REFERENCES colleges(id),
+        FOREIGN KEY(p_id) REFERENCES players(id),
         FOREIGN KEY(g_id) REFERENCES  games(id),
         PRIMARY KEY(p_id, g_id)
     );
@@ -86,10 +85,12 @@ def fill_database():
     fill_colleges()
     fill_games()
     fill_players()
+    create_winners('Davenport')
+    create_winners('Jonathan Edwards')
 
 
 def fill_colleges():
-    real_colleges=[
+    colleges=[
         'Benjamin Franklin',
         'Berkeley',
         'Branford',
@@ -106,28 +107,11 @@ def fill_colleges():
         'Trumbull'
     ]
 
-    fake_colleges = [
-        "Fluffleworth",
-        "Wobblestone",
-        "Gigglington",
-        "Noodlewood",
-        "Tumbleton",
-        "Quizzical",
-        "Spindlewhack",
-        "Blibberfudge",
-        "Doodlefern",
-        "Puffington",
-        "Wibblywobble",
-        "Flibberjig",
-        "Snickerdoodle",
-        "Whimsickle"
-    ]
-
     ex_statement=f'''
-    INSERT INTO colleges(id, name)
+    INSERT INTO colleges(id)
     VALUES 
     
-    {', '.join([f'({i}, "{n}")' for i,n in enumerate(real_colleges)])};
+    {', '.join([f'("{n}")' for n in colleges])};
     '''
 
     # print(ex_statement)
@@ -233,9 +217,27 @@ def fill_games():
         "2023-11-30 23:43:15"
     ]
 
-    for s,l,t in zip(sports, locations, times):
-        college1, college2=tuple(random.sample([i for i in range(14)], 2))
-        add_game(l, s, t, college1, college2)
+    colleges = [
+        'Benjamin Franklin',
+        'Berkeley',
+        'Branford',
+        'Davenport',
+        'Ezra Stiles',
+        'Grace Hopper',
+        'Jonathan Edwards',
+        'Morse College',
+        'Pauli Murray',
+        'Pierson',
+        'Saybrook',
+        'Silliman',
+        'Timothy Dwight',
+        'Trumbull'
+    ]
+
+    for l,t in zip(locations, times):
+        for s in sports:
+            college1, college2=tuple(random.sample(colleges, 2))
+            add_game(l, s, t, college1, college2)
 
 
 def add_game(location, sport, time, college1, college2):
@@ -266,8 +268,8 @@ def add_game(location, sport, time, college1, college2):
     INSERT INTO colleges_games(c_id, g_id)
     VALUES 
 
-    ({college1}, {num_games}),
-    ({college2}, {num_games})
+    ("{college1}", {num_games}),
+    ("{college2}", {num_games})
     '''
 
     # print(ex_statement)
@@ -350,6 +352,32 @@ def get_possible_games(p_id, start=None, end=None):
             cursor.execute(ex_statement)
             data = cursor.fetchall()
             return [int(d[0]) for d in data]
+
+def create_winners(college):
+    ex_statement = f'''
+                    SELECT COUNT(*) from games
+                    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            num_games = int(data[0][0])
+
+
+    ex_statement=f'''
+    UPDATE colleges_games
+    SET winner = 1
+    
+    WHERE g_id<{num_games//2}
+    '''
+
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
 
 
 
