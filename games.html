@@ -6,6 +6,11 @@
 
     <!--Calendar-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6.3.4/dist/tippy-bundle.umd.min.js"></script>
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -23,9 +28,17 @@
                 title: info.event.extendedProps.description,
                 placement: 'top',
                 trigger: 'hover',
-                container: 'body'
+                container: 'body',
               });
-            }
+            },
+            eventMouseEnter: function(info) {
+              var tooltip = tippy(info.el, {
+                content: info.event.extendedProps.loc,
+                allowHTML: true,
+                theme: 'light',
+              });
+            },
+
           });
           calendar.render();
         });

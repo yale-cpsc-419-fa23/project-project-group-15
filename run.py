@@ -62,6 +62,7 @@ def get_events():
     for game in results:
         game_loc = game[0]
         game_date = game[1][:10]
+        game_time = game[1][10:]
         game_sport = game[2]
         game_teams = game[3]
 
@@ -69,7 +70,9 @@ def get_events():
             'title': game_sport,
             'start': game_date,
             'extendedProps': {
-                'description': str(game_teams) + " at " + str(game_loc)
+                #'description': str(game_teams) + " \n at " + str(game_loc)
+                'description': str(game_teams),
+                'loc': str(game_loc) + ", " + str(game_time)
             }
         })
 
