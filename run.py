@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, make_response
 import sqlite3
 from werkzeug.exceptions import BadRequestKeyError
 from db_query import search_games
+from contextlib import closing
 
 app = Flask(__name__, template_folder='.')
 
@@ -77,3 +78,22 @@ def get_events():
         })
 
     return jsonify(events)
+
+@app.route('/sign_up', methods=['POST', 'GET'])
+def signup():
+    #Note: this code doesn't actually work yet. Will fix after OHs.
+
+    with sqlite3.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            
+            statement = '''
+                SELECT players.name, colleges.name AS college_name
+                FROM players
+                INNER JOIN colleges ON players.college = colleges.id
+                '''
+            cursor.execute(statement)
+            data = cursor.fetchall()
+
+            resp = make_response(render_template('sign_up.html', data=data))
+
+            return resp
