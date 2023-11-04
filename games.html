@@ -24,7 +24,8 @@
             events: '/get_events',
             eventContent: function(arg) {
               return {
-                html: '<b>' + arg.event.title + '</b>' + '<br>' + arg.event.extendedProps.description
+                html: '<a href=/sign_up/'+arg.event.id+'>'+'<b>' + arg.event.title + '</b>' + '<br>' + arg.event.extendedProps.description+'</a>'
+
               };
             },
             eventRender: function(info) {

@@ -62,6 +62,7 @@ def get_events():
 
     results = search_games(event_terms)
     for game in results:
+        game_id = game[4]
         game_loc = game[0]
         game_date = game[1][:10]
         game_time = game[1][10:]
@@ -69,6 +70,7 @@ def get_events():
         game_teams = game[3]
 
         events.append({
+            'id': game_id,
             'title': game_sport,
             'start': game_date,
             'extendedProps': {

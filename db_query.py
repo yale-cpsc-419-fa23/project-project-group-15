@@ -34,7 +34,7 @@ def search_games(args):
 
     where_clause, terms = generate_where_clause(args)
     ex_statement = f'''
-    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', ')
+    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', '), games.id
     
     FROM
     
