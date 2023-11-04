@@ -43,8 +43,8 @@ def search_games(args):
     group by games.id
     {where_clause}
     '''
-    print(ex_statement)
-    print(terms)
+    # print(ex_statement)
+    # print(terms)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
             # print(ex_statement)

@@ -379,6 +379,8 @@ def get_college(p_id):
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
             data = cursor.fetchall()
+            if not data:
+                return []
             return data[0][0]
 
 def get_possible_games(p_id, start=None, end=None):
