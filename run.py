@@ -85,7 +85,7 @@ def signup():
 
     with sqlite3.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            
+
             statement = '''
                 SELECT players.name, colleges.name AS college_name
                 FROM players
@@ -95,5 +95,22 @@ def signup():
             data = cursor.fetchall()
 
             resp = make_response(render_template('sign_up.html', data=data))
+
+            return resp
+        
+@app.route('/im_ranking', methods=['POST', 'GET'])
+def show_ranking():
+    #Note: this code doesn't work yet
+    with sqlite3.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+
+            #query for team rankings
+            statement = '''
+            '''
+
+            cursor.execute(statement)
+            data = cursor.fetchall
+
+            resp = make_response(render_template('im_standing.html', data=data))
 
             return resp
