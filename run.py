@@ -1,6 +1,6 @@
 import argparse
 import sys
-from main import app
+from app import app
 
 def run_server(port):
     app.run(host='0.0.0.0', port=port, debug=True)
