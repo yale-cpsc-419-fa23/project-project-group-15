@@ -38,6 +38,16 @@
           </div>
         </div>
       </nav>
+      
+      <h1>Sign Up to Play!</h1>
 
+      <!--TODO: Add basic game info with a lookup-->
+
+      <form action="/confirm_signup/{{game_id}}" method="post">
+          <input type="hidden" name="id" value="{{game_id}}">
+          <label for="playerName">Player Name:</label>
+          <input type="text" id="playerName" name="playerName" required>
+          <input type="submit" value="Submit">
+      </form>
 </body>
 </html>
