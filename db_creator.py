@@ -1,4 +1,3 @@
-import argparse
 import sqlite3 as sql
 from contextlib import closing
 import random
@@ -51,7 +50,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE players(
-        id INT PRIMARY KEY NOT NULL,
+        id TEXT PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
         college TEXT NOT NULL,
         FOREIGN KEY(college) REFERENCES colleges(id)
@@ -64,7 +63,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE players_games(
-        p_id INT NOT NULL,
+        p_id TEXT NOT NULL,
         g_id INT NOT NULL,
         FOREIGN KEY(p_id) REFERENCES players(id),
         FOREIGN KEY(g_id) REFERENCES  games(id),
@@ -169,13 +168,31 @@ def fill_players():
         "Beresford", "Clifton", "Danvers", "Ellington", "Fitzwilliam"
     ]
 
+    colleges = [
+        'Benjamin Franklin',
+        'Berkeley',
+        'Branford',
+        'Davenport',
+        'Ezra Stiles',
+        'Grace Hopper',
+        'Jonathan Edwards',
+        'Morse College',
+        'Pauli Murray',
+        'Pierson',
+        'Saybrook',
+        'Silliman',
+        'Timothy Dwight',
+        'Trumbull'
+    ]
+
     names=[f'{f} {l}' for f,l in zip(first_names, last_names)]
 
     for i,n in enumerate(names):
-        id=add_players(n,  i%14)
-        games=get_possible_games(id)
-        for g in games:
-            sign_up_player(id, g)
+        id=add_players(n,  colleges[i%14])
+        # games=get_possible_games(id)
+        # for g in games:
+        #     if not sign_up_player(id, g):
+        #         raise 'invalid sign up'
 
 def fill_games():
     sports = [
@@ -296,7 +313,7 @@ def add_players(name, college):
             INSERT INTO players(id, name, college)
             VALUES 
 
-            ({num_players}, "{name}", {college});
+            ({num_players}, "{name}", "{college}");
             '''
 
     # print(ex_statement)
@@ -309,25 +326,34 @@ def add_players(name, college):
 
 
 def sign_up_player(p_id, g_id):
+    player_college=get_college(p_id)
+    teams=[t[0] for t in get_teams(g_id)]
+
+    if player_college in teams:
+        ex_statement = f'''
+        INSERT INTO players_games(p_id, g_id)
+        VALUES 
+    
+        ("{p_id}", {g_id})
+        '''
+
+        # print(ex_statement)
+        with sql.connect("intramural.sqlite") as conn:
+            with closing(conn.cursor()) as cursor:
+                cursor.execute(ex_statement)
+
+        return True
+    return False
+
+
+def get_teams(g_id):
     ex_statement = f'''
-    INSERT INTO players_games(p_id, g_id)
-    VALUES 
-
-    ({p_id}, {g_id})
-    '''
-
-    # print(ex_statement)
-    with sql.connect("intramural.sqlite") as conn:
-        with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
-
-
-def get_college(p_id):
-    ex_statement = f'''
-        SELECT college FROM
-        players
-
-        WHERE id={p_id}
+        SELECT c_id, GROUP_CONCAT(players.name, ', ')
+        FROM colleges_games JOIN players
+        on players.college=colleges_games.c_id
+        WHERE g_id={g_id}
+        
+        GROUP BY c_id
         '''
 
     # print(ex_statement)
@@ -335,14 +361,33 @@ def get_college(p_id):
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
             data = cursor.fetchall()
-            return int(data[0][0])
+            return data
+
+
+
+def get_college(p_id):
+    ex_statement = f'''
+        SELECT college FROM
+        players
+
+        WHERE id="{p_id}"
+        '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            if not data:
+                return []
+            return data[0][0]
 
 def get_possible_games(p_id, start=None, end=None):
     ex_statement = f'''
     SELECT g_id FROM
     colleges_games
     
-    WHERE c_id={get_college(p_id)}
+    WHERE c_id="{get_college(p_id)}"
     
     '''
 

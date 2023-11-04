@@ -27,10 +27,10 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Search</a>
+                <a class="nav-link active" aria-current="page" href="/">Search</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Sign Up</a>
+                <a class="nav-link" href="/sign_up">Sign Up</a>
               </li>
               <!--Add New Links Here-->
               <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
@@ -38,6 +38,16 @@
           </div>
         </div>
       </nav>
+      
+      <h1>Sign Up to Play!</h1>
 
+      <!--TODO: Add basic game info with a lookup-->
+
+      <form action="/confirm_signup/{{game_id}}" method="post">
+          <input type="hidden" name="id" value="{{game_id}}">
+          <label for="netID">NetID:</label>
+          <input type="text" id="netID" name="netID" required>
+          <input type="submit" value="Submit">
+      </form>
 </body>
 </html>

@@ -34,7 +34,7 @@ def search_games(args):
 
     where_clause, terms = generate_where_clause(args)
     ex_statement = f'''
-    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', ')
+    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', '), games.id
     
     FROM
     
@@ -43,8 +43,8 @@ def search_games(args):
     group by games.id
     {where_clause}
     '''
-    print(ex_statement)
-    print(terms)
+    # print(ex_statement)
+    # print(terms)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
             # print(ex_statement)
