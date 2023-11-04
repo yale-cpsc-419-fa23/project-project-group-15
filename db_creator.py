@@ -64,7 +64,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE players_games(
-        p_id INT NOT NULL,
+        p_id TEXT NOT NULL,
         g_id INT NOT NULL,
         FOREIGN KEY(p_id) REFERENCES players(id),
         FOREIGN KEY(g_id) REFERENCES  games(id),
@@ -335,7 +335,7 @@ def sign_up_player(p_id, g_id):
         INSERT INTO players_games(p_id, g_id)
         VALUES 
     
-        ({p_id}, {g_id})
+        ("{p_id}", {g_id})
         '''
 
         # print(ex_statement)
@@ -371,7 +371,7 @@ def get_college(p_id):
         SELECT college FROM
         players
 
-        WHERE id={p_id}
+        WHERE id="{p_id}"
         '''
 
     # print(ex_statement)
