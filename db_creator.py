@@ -51,7 +51,7 @@ def create_database():
 
     ex_statements.append('''
     CREATE TABLE players(
-        id INT PRIMARY KEY NOT NULL,
+        id TEXT PRIMARY KEY NOT NULL,
         name TEXT NOT NULL,
         college TEXT NOT NULL,
         FOREIGN KEY(college) REFERENCES colleges(id)
@@ -190,10 +190,10 @@ def fill_players():
 
     for i,n in enumerate(names):
         id=add_players(n,  colleges[i%14])
-        games=get_possible_games(id)
-        for g in games:
-            if not sign_up_player(id, g):
-                raise 'invalid sign up'
+        # games=get_possible_games(id)
+        # for g in games:
+        #     if not sign_up_player(id, g):
+        #         raise 'invalid sign up'
 
 def fill_games():
     sports = [
