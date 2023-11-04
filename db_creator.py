@@ -169,13 +169,31 @@ def fill_players():
         "Beresford", "Clifton", "Danvers", "Ellington", "Fitzwilliam"
     ]
 
+    colleges = [
+        'Benjamin Franklin',
+        'Berkeley',
+        'Branford',
+        'Davenport',
+        'Ezra Stiles',
+        'Grace Hopper',
+        'Jonathan Edwards',
+        'Morse College',
+        'Pauli Murray',
+        'Pierson',
+        'Saybrook',
+        'Silliman',
+        'Timothy Dwight',
+        'Trumbull'
+    ]
+
     names=[f'{f} {l}' for f,l in zip(first_names, last_names)]
 
     for i,n in enumerate(names):
-        id=add_players(n,  i%14)
+        id=add_players(n,  colleges[i%14])
         games=get_possible_games(id)
         for g in games:
-            sign_up_player(id, g)
+            if not sign_up_player(id, g):
+                raise 'invalid sign up'
 
 def fill_games():
     sports = [
@@ -296,7 +314,7 @@ def add_players(name, college):
             INSERT INTO players(id, name, college)
             VALUES 
 
-            ({num_players}, "{name}", {college});
+            ({num_players}, "{name}", "{college}");
             '''
 
     # print(ex_statement)
@@ -310,7 +328,7 @@ def add_players(name, college):
 
 def sign_up_player(p_id, g_id):
     player_college=get_college(p_id)
-    teams=get_teams(g_id)
+    teams=[t[0] for t in get_teams(g_id)]
 
     if player_college in teams:
         ex_statement = f'''
@@ -331,9 +349,12 @@ def sign_up_player(p_id, g_id):
 
 def get_teams(g_id):
     ex_statement = f'''
-        SELECT c_id
-        FROM colleges_games
+        SELECT c_id, GROUP_CONCAT(players.name, ', ')
+        FROM colleges_games JOIN players
+        on players.college=colleges_games.c_id
         WHERE g_id={g_id}
+        
+        GROUP BY c_id
         '''
 
     # print(ex_statement)
@@ -341,7 +362,7 @@ def get_teams(g_id):
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
             data = cursor.fetchall()
-            return [d[0] for d in data]
+            return data
 
 
 
@@ -358,14 +379,14 @@ def get_college(p_id):
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
             data = cursor.fetchall()
-            return int(data[0][0])
+            return data[0][0]
 
 def get_possible_games(p_id, start=None, end=None):
     ex_statement = f'''
     SELECT g_id FROM
     colleges_games
     
-    WHERE c_id={get_college(p_id)}
+    WHERE c_id="{get_college(p_id)}"
     
     '''
 
@@ -404,5 +425,5 @@ def create_winners(college):
 
 
 
-# create_database()
-# fill_database()
+create_database()
+fill_database()
