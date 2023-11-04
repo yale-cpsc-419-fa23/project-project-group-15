@@ -73,6 +73,7 @@ def get_events():
             'id': game_id,
             'title': game_sport,
             'start': game_date,
+            'color': (0, 174, 255),
             'extendedProps': {
                 #'description': str(game_teams) + " \n at " + str(game_loc)
                 'description': str(game_teams),

@@ -24,8 +24,8 @@
             events: '/get_events',
             eventContent: function(arg) {
               return {
-                html: '<a href=/sign_up/'+arg.event.id+'>'+'<b>' + arg.event.title + '</b>' + '<br>' + arg.event.extendedProps.description+'</a>'
-
+                 // html: '<a href=/sign_up/'+arg.event.id+'>'+'<b>' + arg.event.title + '</b>' + '<br>' + arg.event.extendedProps.description+'</a>'
+                 html: arg.event.title + '<br>' + arg.event.extendedProps.description
               };
             },
             eventRender: function(info) {
@@ -42,6 +42,10 @@
                 allowHTML: true,
                 theme: 'light',
               });
+            },
+            eventClick: function(arg) {
+                console.log("arg.event.id:", arg.event.id);
+              window.location.href = '/sign_up/' + arg.event.id;
             },
 
           });
