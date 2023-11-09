@@ -1,11 +1,20 @@
-from flask import Flask, render_template, request, jsonify, make_response, redirect
+from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 import sqlite3
 from werkzeug.exceptions import BadRequestKeyError
 from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
+import secrets
 
 app = Flask(__name__, template_folder='.')
+from flask_cas import CAS
+
+CAS(app)
+app.config['CAS_SERVER'] = 'https://secure.its.yale.edu'
+app.config['CAS_LOGIN_ROUTE']='/cas/login'
+app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
+app.secret_key = secrets.token_urlsafe(16)
+
 
 @app.route('/')
 def main_page():
@@ -99,3 +108,11 @@ def confirm_signup(game_id):
     print("Player " + str(request.form["netID"]) + " signed up!")
 
     return redirect('/games')
+
+@app.route('/cas_testing')
+def cas_testing():
+    try:
+        return render_template('cas_testing.html', username=session["CAS_USERNAME"])
+
+    except KeyError:
+        return render_template('cas_testing.html', username='an error occurred retrieving user data')
