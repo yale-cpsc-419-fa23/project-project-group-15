@@ -4,6 +4,7 @@ from werkzeug.exceptions import BadRequestKeyError
 from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
+from db_creator import get_players
 
 app = Flask(__name__, template_folder='.')
 
@@ -97,5 +98,15 @@ def confirm_signup(game_id):
     sign_up_player(request.form["netID"], game_id)
 
     print("Player " + str(request.form["netID"]) + " signed up!")
+    print(get_players(game_id))
 
     return redirect('/games')
+
+@app.route('/allgames', methods=['POST', 'GET'])
+def allgames():
+
+    terms = {}
+
+    resp = make_response(render_template('games.html', search_terms=terms))
+
+    return resp

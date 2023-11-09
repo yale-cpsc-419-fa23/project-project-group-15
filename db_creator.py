@@ -424,7 +424,16 @@ def create_winners(college):
             cursor.execute(ex_statement)
             data = cursor.fetchall()
 
-
+def get_players(game_id):
+    ex_statement = f'''
+    SELECT * FROM players_games
+    WHERE g_id = {game_id}
+    '''
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+    return data
 
 create_database()
 fill_database()
