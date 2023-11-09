@@ -328,16 +328,15 @@ def add_players(name, college):
 def sign_up_player(p_id, g_id):
     player_college=get_college(p_id)
     teams=[t[0] for t in get_teams(g_id)]
-
     if player_college in teams:
         ex_statement = f'''
         INSERT INTO players_games(p_id, g_id)
         VALUES 
-    
+        
         ("{p_id}", {g_id})
-        '''
+            '''
 
-        # print(ex_statement)
+            # print(ex_statement)
         with sql.connect("intramural.sqlite") as conn:
             with closing(conn.cursor()) as cursor:
                 cursor.execute(ex_statement)
@@ -424,7 +423,29 @@ def create_winners(college):
             cursor.execute(ex_statement)
             data = cursor.fetchall()
 
+def get_players(game_id):
+    ex_statement = f'''
+    SELECT name, college FROM players_games
+    JOIN players
+    ON players.id=players_games.p_id
+    WHERE g_id = {game_id}
+    '''
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+    return data
 
+def test(id):
+    ex_statement = '''
+        SELECT * FROM players
+        WHERE id=0
+        '''
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+    return data
 
 create_database()
 fill_database()

@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 import sqlite3
 from werkzeug.exceptions import BadRequestKeyError
+from db_creator import get_teams
 from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
 import secrets
+from db_creator import get_players
+from db_creator import test
 
 app = Flask(__name__, template_folder='.')
 from flask_cas import CAS
@@ -95,7 +98,9 @@ def get_events():
 #Signup Page
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
-    resp = make_response(render_template('sign_up.html', game_id=game_id))
+    players = get_teams(game_id)
+
+    resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
 
     return resp
 
@@ -106,6 +111,8 @@ def confirm_signup(game_id):
     sign_up_player(request.form["netID"], game_id)
 
     print("Player " + str(request.form["netID"]) + " signed up!")
+    #print(test(game_id))
+    #print(get_players(game_id))
 
     return redirect('/games')
 
@@ -116,3 +123,11 @@ def cas_testing():
 
     except KeyError:
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
+@app.route('/allgames', methods=['POST', 'GET'])
+def allgames():
+
+    terms = {}
+
+    resp = make_response(render_template('games.html', search_terms=terms))
+
+    return resp
