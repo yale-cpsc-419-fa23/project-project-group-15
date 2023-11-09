@@ -1,6 +1,7 @@
 # Database file (too large for GitHub)
 lux.sqlite
 *.sqlite
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

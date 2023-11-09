@@ -1,0 +1,44 @@
+<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+    <cas:authenticationSuccess>
+        <cas:user>oag22</cas:user>
+        <cas:attributes>
+            <cas:clientIpAddress>172.27.165.159</cas:clientIpAddress>
+            <cas:isFromNewLogin>false</cas:isFromNewLogin>
+            <cas:authenticationDate>2023-11-09T20:37:48.849027Z</cas:authenticationDate>
+            <cas:bypassMultifactorAuthentication>false</cas:bypassMultifactorAuthentication>
+            <cas:authnContextClass>mfa-duo</cas:authnContextClass>
+            <cas:successfulAuthenticationHandlers>DuoSecurityAuthenticationHandler</cas:successfulAuthenticationHandlers>
+            <cas:userAgent>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36</cas:userAgent>
+            <cas:credentialType>DuoSecurityUniversalPromptCredential</cas:credentialType>
+            <cas:samlAuthenticationStatementAuthMethod>urn:oasis:names:tc:SAML:1.0:am:unspecified</cas:samlAuthenticationStatementAuthMethod>
+            <cas:authenticationMethod>DuoSecurityAuthenticationHandler</cas:authenticationMethod>
+            <cas:geoLocation>unknown</cas:geoLocation>
+            <cas:serverIpAddress>172.18.9.115</cas:serverIpAddress>
+            <cas:longTermAuthenticationRequestTokenUsed>false</cas:longTermAuthenticationRequestTokenUsed>
+            <cas:memberOf>CN=yale:apps:IAM:duo:production:PhoneCall_Auth:AllowPhoneCallAuth,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:All_Faculty_and_Students,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:zoom:ActiveAffil_minus_coveredIdentities,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:IAM:CAS:Default_Authz:Default_Authz,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:MyApps:Users,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:public_safety:Paper_Cut:Paper_Cut_Users,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:NonProfessionalStudents,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:WVD_MFA,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:azure:license:a5_base_config_stu_noexch,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:allStudentsMinusSOM,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:azure:ami_pilot:mfa_knowledge_cas,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=ActiveNetids,OU=EmailProvisioning,OU=Identity and Access Management,OU=Information Technology Services,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:azure:ami_pilot:mfa_knowledge_long,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:affiliation:epa:member,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:affiliation:epa:employee,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:sponsoredidentity:si_authorized,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:allStudentsMinusEphMinusSOM,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:myapp:All Students,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:AdobeCC:student,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:pcs:eph:nonephstudents,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:affiliation:epa:student,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:remoteaccess:libraryvpn:libraryvpn,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=yale:apps:remoteaccess:vpn:vpn,OU=Prod,OU=YaleGroups,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            <cas:memberOf>CN=ProvisionedUsers,OU=EmailProvisioning,OU=Identity and Access Management,OU=Information Technology Services,DC=yu,DC=yale,DC=edu</cas:memberOf>
+            </cas:attributes>
+    </cas:authenticationSuccess>
+</cas:serviceResponse>

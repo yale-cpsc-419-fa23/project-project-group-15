@@ -43,6 +43,13 @@
 
       <!--TODO: Add basic game info with a lookup-->
 
+      <h2>Players</h2>
+      <ul>
+          {% for item in players %}
+              <li>{{ item }}</li>
+          {% endfor %}
+      </ul>
+
       <form action="/confirm_signup/{{game_id}}" method="post">
           <input type="hidden" name="id" value="{{game_id}}">
           <label for="netID">NetID:</label>
