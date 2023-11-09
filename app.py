@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect
 import sqlite3
 from werkzeug.exceptions import BadRequestKeyError
+from db_creator import get_teams
 from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
@@ -88,10 +89,16 @@ def get_events():
 #Signup Page
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
+<<<<<<< Updated upstream
     data = get_players(game_id)
     #print(get_players(game_id))
     #players=0
     resp = make_response(render_template('sign_up.html', game_id=game_id,data=data))
+=======
+    players = get_teams(game_id)
+
+    resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
+>>>>>>> Stashed changes
 
     return resp
 
