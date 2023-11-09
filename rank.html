@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>College Intramural Rankings</h1>
+    <table bgcolor="black">
+            <tr bgcolor="grey" align="center">
+                <th>Place</th>
+                <th>College</th>
+                <th>Wins</th>
+            </tr>
+
+            {% for i in range(ranks|length) %}
+                <tr bgcolor="white" align="center">
+                    <td> {{i+1}} </td>
+                    <td> {{ranks[i][0]}} </td>
+                    <td> {{ranks[i][1]}} </td>
+                </tr>
+            {% endfor %}
+
+    </table>
+</body>
+</html>

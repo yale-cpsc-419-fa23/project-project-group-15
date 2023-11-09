@@ -6,6 +6,7 @@ from db_creator import sign_up_player
 from contextlib import closing
 from db_creator import get_players
 from db_creator import test
+from db_query import get_college_ranking
 
 app = Flask(__name__, template_folder='.')
 
@@ -113,5 +114,14 @@ def allgames():
     terms = {}
 
     resp = make_response(render_template('games.html', search_terms=terms))
+
+    return resp
+
+@app.route('/rank', methods=['POST', 'GET'])
+def rank():
+    ranks = get_college_ranking()
+    print(ranks)
+
+    resp = make_response(render_template('rank.html',ranks=ranks))
 
     return resp
