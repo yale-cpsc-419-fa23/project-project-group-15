@@ -5,6 +5,7 @@ from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
 from db_creator import get_players
+from db_creator import test
 
 app = Flask(__name__, template_folder='.')
 
@@ -87,7 +88,10 @@ def get_events():
 #Signup Page
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
-    resp = make_response(render_template('sign_up.html', game_id=game_id))
+    data = get_players(game_id)
+    #print(get_players(game_id))
+    #players=0
+    resp = make_response(render_template('sign_up.html', game_id=game_id,data=data))
 
     return resp
 
@@ -98,7 +102,8 @@ def confirm_signup(game_id):
     sign_up_player(request.form["netID"], game_id)
 
     print("Player " + str(request.form["netID"]) + " signed up!")
-    print(get_players(game_id))
+    #print(test(game_id))
+    #print(get_players(game_id))
 
     return redirect('/games')
 

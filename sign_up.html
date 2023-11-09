@@ -49,5 +49,22 @@
           <input type="text" id="netID" name="netID" required>
           <input type="submit" value="Submit">
       </form>
+<!--    <p>{{data}}</p>-->
+    <table>
+        <tr>
+<!--         label, date, agents, classifiers-->
+            <th> # </th>
+            <th>Player</th>
+            <th>College</th>
+        </tr>
+        {% for i in range(data|length) %}
+        <tr>
+<!--         label, date, agents, classifiers-->
+            <td> {{i+1}} </td>
+            <td> {{data[i][0]}} </td>
+            <td> {{data[i][1]}} </td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
