@@ -9,15 +9,16 @@ import secrets
 from db_creator import get_players
 from db_creator import test
 from db_query import get_college_ranking
+#from flask_cas import CAS
 
 app = Flask(__name__, template_folder='.')
-from flask_cas import CAS
 
-CAS(app)
-app.config['CAS_SERVER'] = 'https://secure.its.yale.edu'
-app.config['CAS_LOGIN_ROUTE']='/cas/login'
-app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
-app.secret_key = secrets.token_urlsafe(16)
+
+#CAS(app)
+#app.config['CAS_SERVER'] = 'https://secure.its.yale.edu'
+#app.config['CAS_LOGIN_ROUTE']='/cas/login'
+#app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
+#app.secret_key = secrets.token_urlsafe(16)
 
 
 @app.route('/')
@@ -132,7 +133,6 @@ def allgames():
     resp = make_response(render_template('games.html', search_terms=terms))
 
     return resp
-<<<<<<< HEAD
 
 @app.route('/rank', methods=['POST', 'GET'])
 def rank():
@@ -142,5 +142,3 @@ def rank():
     resp = make_response(render_template('rank.html',ranks=ranks))
 
     return resp
-=======
->>>>>>> b6f3c77b06bd1eb3705a63738bf9746a134fe306
