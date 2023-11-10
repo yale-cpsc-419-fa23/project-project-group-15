@@ -5,9 +5,10 @@ from db_query import search_games
 from db_creator import sign_up_player
 from contextlib import closing
 import secrets
-from db_creator import get_players
+from db_creator import get_players, add_game
 from db_creator import test
 from db_query import get_college_ranking
+from hashlib import sha256
 
 app = Flask(__name__, template_folder='.')
 from flask_cas import CAS
@@ -143,7 +144,27 @@ def rank():
 
 @app.route('/admin', methods=['POST', 'GET'])
 def admin():
+     #If no form submission render normally
+     if request.method == 'GET':
+         return render_template('admin.html', message="")
 
-    resp = make_response(render_template('admin.html'))
+    #If form submitted try adding game
+     if request.method == 'POST':
 
-    return resp
+        password = request.form['Password']
+        location = request.form['Location']
+        name = request.form['Activity Name']
+        college1 = request.form['college1']
+        college2 = request.form['college2']
+        date = request.form['date']
+
+        #TODO: Make authentication more secure.
+        if sha256(password.encode('utf-8')).hexdigest() == 'e49d560cd008344edf745b8052ef714b07595808898c835f17f962a10012f964':
+            add_game(location, name, date, college1, college2)
+            print("Added Game!")
+
+            return render_template('admin.html', message="Success")
+        else:
+            # Redirect or render an error page for incorrect password
+            print("Bad password")
+            return render_template('admin.html', message='Incorrect password')
