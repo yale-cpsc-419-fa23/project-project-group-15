@@ -132,7 +132,6 @@ def allgames():
     resp = make_response(render_template('games.html', search_terms=terms))
 
     return resp
-<<<<<<< HEAD
 
 @app.route('/rank', methods=['POST', 'GET'])
 def rank():
@@ -142,5 +141,3 @@ def rank():
     resp = make_response(render_template('rank.html',ranks=ranks))
 
     return resp
-=======
->>>>>>> b6f3c77b06bd1eb3705a63738bf9746a134fe306
