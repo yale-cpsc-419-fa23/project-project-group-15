@@ -140,3 +140,10 @@ def rank():
     resp = make_response(render_template('rank.html',ranks=ranks))
 
     return resp
+
+@app.route('/admin', methods=['POST', 'GET'])
+def admin():
+
+    resp = make_response(render_template('admin.html'))
+
+    return resp
