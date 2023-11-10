@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
-import sqlite3
 from werkzeug.exceptions import BadRequestKeyError
 from db_creator import get_teams
 from db_query import search_games
