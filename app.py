@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 from werkzeug.exceptions import BadRequestKeyError
 from db_creator import get_teams
-from db_query import search_games
+from db_query import search_games, get_player_info
 from db_creator import sign_up_player
 from contextlib import closing
 import secrets
-from db_creator import get_players, add_game
+from db_creator import get_players, add_game, add_players
 from db_creator import test
 from db_query import get_college_ranking
 from hashlib import sha256
@@ -29,7 +29,7 @@ app.secret_key = secrets.token_urlsafe(16)
 def main_page():
     search_terms = {}
     signed_in= "CAS_USERNAME" in session
-    user=session['CAS_USERNAME'] if signed_in else ''
+    user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
 
     return render_template('index.html', search_terms=search_terms, signed_in=signed_in, username=user)
 
@@ -108,6 +108,7 @@ def get_events():
 def signup(game_id):
     players = get_teams(game_id)
 
+
     resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
 
     return resp
@@ -115,14 +116,19 @@ def signup(game_id):
 #Signup CONFIRMATION Page
 @app.route('/confirm_signup/<game_id>', methods=['POST', 'GET'])
 def confirm_signup(game_id):
-
-    sign_up_player(request.form["netID"], game_id)
-
-    print("Player " + str(request.form["netID"]) + " signed up!")
+    signed_in = "CAS_USERNAME" in session
+    if signed_in:
+        if sign_up_player(session["CAS_USERNAME"], game_id):
+            print("Player " + str(session["CAS_USERNAME"]) + " signed up!")
+            return redirect('/games')
+        else:
+            return render_template('bad_signup.html')
+    else:
+        return render_template('bad_signup.html')
     #print(test(game_id))
     #print(get_players(game_id))
 
-    return redirect('/games')
+
 
 @app.route('/cas_testing')
 def cas_testing():
@@ -182,19 +188,27 @@ def login():
 
     login_url='https://secure.its.yale.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F'
     redirect_url=login_url
+    cookies={}
+
     if 'ticket' in request.args:
         session['CAS_TOKEN']=request.args['ticket']
     if 'CAS_TOKEN' in session:
         if validate(session['CAS_TOKEN']):
-            redirect_url='/'
+            if info:=get_player_info(session['CAS_USERNAME']):
+                redirect_url='/'
+                cookies['user_name']=info[1]
+            else:
+                redirect_url='/new_user'
         else:
             del session['CAS_TOKEN']
             if "CAS_USERNAME" in session:
                 del session["CAS_USERNAME"]
 
     current_app.logger.info(f'redirecting to {redirect_url}')
-
-    return redirect(redirect_url)
+    resp=make_response(redirect(redirect_url))
+    for c in cookies:
+        resp.set_cookie(c, cookies[c])
+    return resp
 
 
 def validate(ticket):
@@ -215,3 +229,41 @@ def validate(ticket):
 
 
 
+@app.route('/new_user/', methods=['POST', 'GET'])
+def add_user():
+    colleges = [
+        'Benjamin Franklin',
+        'Berkeley',
+        'Branford',
+        'Davenport',
+        'Ezra Stiles',
+        'Grace Hopper',
+        'Jonathan Edwards',
+        'Morse College',
+        'Pauli Murray',
+        'Pierson',
+        'Saybrook',
+        'Silliman',
+        'Timothy Dwight',
+        'Trumbull'
+    ]
+
+    signed_in='CAS_USERNAME' in session
+    if not signed_in:
+        return redirect('/login/')
+
+    if 'name' in request.args and 'college' in request.args and request.args['college'] in colleges:
+        name=request.args['name']
+        college=request.args['college']
+        id=session['CAS_USERNAME']
+        add_players(name, college, id=id)
+        return redirect('/')
+    else:
+        return render_template('new_user.html', colleges=colleges)
+
+
+@app.route('/navbar/', methods=['POST', 'GET'])
+def navbar():
+    signed_in= "CAS_USERNAME" in session
+    user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
+    return render_template('navbar.html', signed_in=signed_in, username=user)
