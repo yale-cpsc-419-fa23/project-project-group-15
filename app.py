@@ -9,11 +9,16 @@ from db_creator import get_players, add_game
 from db_creator import test
 from db_query import get_college_ranking
 from hashlib import sha256
+from xmltodict import parse
+
+
+
+from urllib.request import urlopen
 
 app = Flask(__name__, template_folder='.')
-from flask_cas import CAS
+# from flask_cas import CAS
 
-CAS(app)
+# CAS(app)
 app.config['CAS_SERVER'] = 'https://secure.its.yale.edu'
 app.config['CAS_LOGIN_ROUTE']='/cas/login'
 app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
@@ -23,8 +28,10 @@ app.secret_key = secrets.token_urlsafe(16)
 @app.route('/')
 def main_page():
     search_terms = {}
+    signed_in= "CAS_USERNAME" in session
+    user=session['CAS_USERNAME'] if signed_in else ''
 
-    return render_template('main.html', search_terms=search_terms)
+    return render_template('index.html', search_terms=search_terms, signed_in=signed_in, username=user)
 
 @app.route('/games', methods=['POST', 'GET'])
 def games():
@@ -120,7 +127,7 @@ def confirm_signup(game_id):
 @app.route('/cas_testing')
 def cas_testing():
     try:
-        return render_template('cas_testing.html', username=session["CAS_USERNAME"])
+        return render_template('cas_testing.html', username=session)
 
     except KeyError:
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
@@ -168,3 +175,43 @@ def admin():
             # Redirect or render an error page for incorrect password
             print("Bad password")
             return render_template('admin.html', message='Incorrect password')
+
+
+@app.route('/login/', methods=['POST', 'GET'])
+def login():
+
+    login_url='https://secure.its.yale.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F'
+    redirect_url=login_url
+    if 'ticket' in request.args:
+        session['CAS_TOKEN']=request.args['ticket']
+    if 'CAS_TOKEN' in session:
+        if validate(session['CAS_TOKEN']):
+            redirect_url='/'
+        else:
+            del session['CAS_TOKEN']
+            if "CAS_USERNAME" in session:
+                del session["CAS_USERNAME"]
+
+    current_app.logger.info(f'redirecting to {redirect_url}')
+
+    return redirect(redirect_url)
+
+
+def validate(ticket):
+    validation_url=f'https://secure.its.yale.edu/cas/serviceValidate?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F&ticket={ticket}'
+    current_app.logger.info(f'attempting to validate login credentials at {validation_url}')
+    val_xml=urlopen(validation_url).read().strip().decode('utf8', 'ignore')
+    val_dic=parse(val_xml)
+
+    if "cas:authenticationSuccess" not in val_dic["cas:serviceResponse"]:
+        return False
+
+    val_dic=val_dic["cas:serviceResponse"]["cas:authenticationSuccess"]
+    username = val_dic["cas:user"]
+    session["CAS_USERNAME"]=username
+    session['CAS_ATTRIBUTES']=val_dic["cas:attributes"]
+
+    return True
+
+
+

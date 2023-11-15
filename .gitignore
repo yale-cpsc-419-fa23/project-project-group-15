@@ -2,6 +2,7 @@
 lux.sqlite
 *.sqlite
 node_modules/
+cred.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -259,3 +260,4 @@ cpsc419-project/bin/python3.11
 cpsc419-project/pyvenv.cfg
 cpsc419-project/bin/flask
 .DS_Store
+cred.txt
