@@ -15,6 +15,19 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
         crossorigin="anonymous"></script>
+
+    <!--Check whether event was added, or password was wrong-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var message = "{{ message }}";
+                if (message === 'Success') {
+                    alert("Event added successfully!");
+                } else if (message === 'Incorrect password') {
+                    alert("Incorrect password. Please try again.");
+                }
+        });
+    </script>
+
 </head>
 <body>
     <!--Navbar-->
@@ -42,22 +55,35 @@
         </div>
       </nav>
 
-    <h1>College Intramural Rankings</h1>
-    <table bgcolor="black">
-            <tr bgcolor="grey" align="center">
-                <th>Place</th>
-                <th>College</th>
-                <th>Wins</th>
-            </tr>
+    <h1 style="text-align: center;">~IM Admin Page~</h1>  
+    <form style="text-align: center; padding: 32px;" action="/admin", method="post">
+        <div>
+            <input type="password" id="password" name="Password" placeholder="IM Admin Password" value=""/><br><br>
+        </div>
 
-            {% for i in range(ranks|length) %}
-                <tr bgcolor="white" align="center">
-                    <td> {{i+1}} </td>
-                    <td> {{ranks[i][0]}} </td>
-                    <td> {{ranks[i][1]}} </td>
-                </tr>
-            {% endfor %}
+        <div>
+            <input type="text" id="name_form" name="Activity Name" placeholder="Activity Name" value=""/><br><br>
+        </div>
 
-    </table>
+        <div>
+            <input type="text" id="location_form" name="Location" placeholder="Location" value=""/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="college1_form" name="college1" placeholder="College 1" value=""/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="college2_form" name="college2" placeholder="College 2" value=""/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_form" name="date" placeholder="Date" value=""/><br><br>
+        </div>
+
+        <div>
+            <button type="submit", name="SubmitEvent">Submit Event</button>
+        </div>
+    </form>
 </body>
 </html>
