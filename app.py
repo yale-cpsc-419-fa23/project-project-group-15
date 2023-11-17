@@ -8,6 +8,7 @@ import secrets
 from db_creator import get_players, add_game, add_players
 from db_creator import test
 from db_query import get_college_ranking
+from db_query import games_low_players
 from hashlib import sha256
 from xmltodict import parse
 
@@ -146,11 +147,23 @@ def cas_testing():
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
 @app.route('/allgames', methods=['POST', 'GET'])
 def allgames():
-
+    print("all gamescalled")
     terms = {}
 
     resp = make_response(render_template('games.html', search_terms=terms))
+    return resp
 
+
+@app.route('/lowplayers', methods=['POST', 'GET'])
+def lowplayers():
+    print("AAAAAAAAAAAAAAAA")
+
+    #returns game IDs with low players
+    games = games_low_players()
+    print(games)
+
+    resp = make_response(render_template('AAAA.html'))
+    #
     return resp
 
 @app.route('/rank', methods=['POST', 'GET'])
