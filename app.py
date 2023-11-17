@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 from werkzeug.exceptions import BadRequestKeyError
 from db_creator import get_teams
-from db_query import search_games, get_player_info, get_colleges
+from db_query import search_games, get_player_info
 from db_creator import sign_up_player
 from contextlib import closing
 import secrets
@@ -31,11 +31,7 @@ def main_page():
     signed_in= "CAS_USERNAME" in session
     user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
 
-    #TODO Add search for current colleges in db
-    colleges = get_colleges()
-
-    return render_template('index.html', search_terms=search_terms,
-                           signed_in=signed_in, username=user, colleges=colleges)
+    return render_template('index.html', search_terms=search_terms, signed_in=signed_in, username=user)
 
 @app.route('/games', methods=['POST', 'GET'])
 def games():
