@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 from werkzeug.exceptions import BadRequestKeyError
 from db_creator import get_teams
-from db_query import search_games, get_player_info
+from db_query import search_games, get_player_info, get_colleges
 from db_creator import sign_up_player
 from contextlib import closing
 import secrets
@@ -11,7 +11,6 @@ from db_query import get_college_ranking
 from db_query import games_low_players
 from hashlib import sha256
 from xmltodict import parse
-
 
 
 from urllib.request import urlopen
@@ -38,6 +37,8 @@ def main_page():
     search_terms = {}
     signed_in= "CAS_USERNAME" in session
     user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
+    # colleges = get_colleges()
+    # print(colleges)
 
     return render_template('index.html', search_terms=search_terms, signed_in=signed_in, username=user)
 
@@ -115,7 +116,6 @@ def get_events():
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
     players = get_teams(game_id)
-
 
     resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
 

@@ -100,6 +100,19 @@ def get_player_info(id):
             if not data:
                 return []
             return data[0]
+        
+def get_colleges():
+    search = '''
+    SELECT id
+    FROM colleges
+    '''
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(search)
+            data = cursor.fetchall()
+
+    return data
 
 def games_low_players():
     ex_statement = '''
