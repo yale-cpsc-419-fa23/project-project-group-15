@@ -23,3 +23,6 @@ button {
 }
 
 
+table tr:hover {
+    background-color: lightgrey;
+}
