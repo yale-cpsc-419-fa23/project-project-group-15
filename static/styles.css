@@ -1,0 +1,25 @@
+/* 
+styles.css
+Written by Brian Di Bassinga (November 2023)
+
+Styling for Final Project IM APP
+*/
+
+/* Apply styles to the select elements */
+select {
+    border-radius: 10px; /* Adjust the value to change the roundness */
+    padding: 5px; /* Adjust the value to add padding */
+    font-size: 16px; /* Adjust the value to change the font size */
+    width: 200px; /* Adjust the value to set the width */
+    /* Add other styling properties as needed */
+}
+
+/* Apply styles to the buttons */
+button {
+    border-radius: 20px; /* Adjust the value to make the button round */
+    padding: 10px 20px; /* Adjust the values to add padding */
+    font-size: 16px; /* Adjust the value to change the font size */
+    /* Add other styling properties as needed */
+}
+
+
