@@ -187,7 +187,6 @@ def admin():
 
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
-
     login_url='https://secure.its.yale.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F'
     redirect_url=login_url
     cookies={}
