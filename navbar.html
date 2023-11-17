@@ -32,12 +32,7 @@
             </ul>
 
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-              {% if signed_in %}
-                  <span class="navbar-text"> Hello, {{username}}</span>
-              {% else %}
-                <a class="nav-link active" aria-current="page" href="/login">Log In</a>
-              {% endif %}
+              <li class="nav-item" id="welcome_message">
               </li>
               <!--Add New Links Here-->
               <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
@@ -45,5 +40,37 @@
           </div>
         </div>
       </nav>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <script>
+
+        function getLoginState(){
+            let url='/login_state'
+            request = $.ajax(
+           {
+              type: 'GET',
+              url: url,
+              success: setLoginState
+           }
+            );
+        }
+
+        function setLoginState(response){
+            if(response){
+                $('#welcome_message').html('<span className="navbar-text"> Hello, '+Cookies.get('user_name')+'</span>');
+            }
+            else{
+                $('#welcome_message').html('<a class="nav-link active" aria-current="page" href="/login">Log In</a>')
+            }
+
+        }
+
+        function setup(){
+            getLoginState()
+        }
+        $('document').ready(setup);
+    </script>
 </body>
 </html>

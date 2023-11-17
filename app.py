@@ -264,13 +264,21 @@ def add_user():
         college=request.args['college']
         id=session['CAS_USERNAME']
         add_players(name, college, id=id)
-        return redirect('/')
+        info=get_player_info(session['CAS_USERNAME'])
+        resp=make_response(redirect('/'))
+        resp.set_cookie('user_name', info[1])
+        return resp
     else:
         return render_template('new_user.html', colleges=colleges)
 
 
 @app.route('/navbar/', methods=['POST', 'GET'])
 def navbar():
+    # signed_in= "CAS_USERNAME" in session
+    # user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
+    return render_template('navbar.html')
+
+@app.route('/login_state')
+def get_login_state():
     signed_in= "CAS_USERNAME" in session
-    user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
-    return render_template('navbar.html', signed_in=signed_in, username=user)
+    return jsonify(signed_in)
