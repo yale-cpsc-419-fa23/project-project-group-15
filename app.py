@@ -12,7 +12,6 @@ from hashlib import sha256
 from xmltodict import parse
 
 
-
 from urllib.request import urlopen
 
 app = Flask(__name__, template_folder='.')
@@ -109,7 +108,6 @@ def get_events():
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
     players = get_teams(game_id)
-
 
     resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
 

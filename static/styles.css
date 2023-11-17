@@ -22,3 +22,7 @@ button {
     /* Add other styling properties as needed */
 }
 
+
+table tr:hover {
+    background-color: lightgrey;
+}
