@@ -296,24 +296,25 @@ def add_game(location, sport, time, college1, college2):
 
 
 
-def add_players(name, college):
+def add_players(name, college, id=''):
     ex_statement = f'''
                     SELECT COUNT(*) from players
                     '''
 
+    if not id:
     # print(ex_statement)
-    with sql.connect("intramural.sqlite") as conn:
-        with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
-            data = cursor.fetchall()
-            num_players = int(data[0][0])
+        with sql.connect("intramural.sqlite") as conn:
+            with closing(conn.cursor()) as cursor:
+                cursor.execute(ex_statement)
+                data = cursor.fetchall()
+                id = int(data[0][0])
 
 
     ex_statement = f'''
             INSERT INTO players(id, name, college)
             VALUES 
 
-            ({num_players}, "{name}", "{college}");
+            ("{id}", "{name}", "{college}");
             '''
 
     # print(ex_statement)
@@ -321,7 +322,7 @@ def add_players(name, college):
         with closing(conn.cursor()) as cursor:
             cursor.execute(ex_statement)
 
-    return num_players
+    return id
 
 
 
@@ -337,10 +338,14 @@ def sign_up_player(p_id, g_id):
             '''
 
             # print(ex_statement)
+
         with sql.connect("intramural.sqlite") as conn:
             with closing(conn.cursor()) as cursor:
-                cursor.execute(ex_statement)
-
+                try:
+                    cursor.execute(ex_statement)
+                except sql.IntegrityError:
+                    # print('cannot sign up player')
+                    return False
         return True
     return False
 
@@ -447,5 +452,6 @@ def test(id):
             data = cursor.fetchall()
     return data
 
-create_database()
-fill_database()
+if __name__=="__main__":
+    create_database()
+    fill_database()

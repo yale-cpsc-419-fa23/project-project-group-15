@@ -17,7 +17,7 @@
         crossorigin="anonymous"></script>
 </head>
 <body>
-    <!--Navbar-->
+<!--    Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Yale IMs Calendar</a>
@@ -30,7 +30,19 @@
                 <a class="nav-link active" aria-current="page" href="/">Search</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/sign_up">Sign Up</a>
+                <a class="nav-link active" aria-current="page" href="/rank">Team Rankings</a>
+              </li>
+              <!--Add New Links Here-->
+              <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
+            </ul>
+
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+              {% if signed_in %}
+                  <span class="navbar-text"> Hello, {{username}}</span>
+              {% else %}
+                <a class="nav-link active" aria-current="page" href="/login">Log In</a>
+              {% endif %}
               </li>
               <!--Add New Links Here-->
               <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
@@ -38,38 +50,34 @@
           </div>
         </div>
       </nav>
-      
-      <h1>Sign Up to Play!</h1>
 
-      <!--TODO: Add basic game info with a lookup-->
+<!--    <embed src="/navbar/" style="width:100%">-->
 
-      <h2>Players</h2>
-      <ul>
-          {% for item in players %}
-              <li>{{ item }}</li>
-          {% endfor %}
-      </ul>
+    <form style="text-align: center; padding: 32px;" action="/games">
+        <div>
+            <input type="text" id="sport_form" name="sport" placeholder="Sport" value="{{search_terms.sport}}"/><br><br>
+        </div>
+        <div>
+            <input type="text" id="college_form" name="college" placeholder="College" value="{{search_terms.college}}"/><br><br>
+        </div>
 
-      <form action="/confirm_signup/{{game_id}}" method="post">
-          <input type="hidden" name="id" value="{{game_id}}">
-          <input type="submit" value="Submit">
-      </form>
-<!--    <p>{{data}}</p>-->
-    <table>
-        <tr>
-<!--         label, date, agents, classifiers-->
-            <th> # </th>
-            <th>Player</th>
-            <th>College</th>
-        </tr>
-        {% for i in range(data|length) %}
-        <tr>
-<!--         label, date, agents, classifiers-->
-            <td> {{i+1}} </td>
-            <td> {{data[i][0]}} </td>
-            <td> {{data[i][1]}} </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <div>
+            <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
+        </div>
+
+        <div>
+            <input type="text" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+        </div>
+
+        <div>
+            <button>Submit</button>
+            <button onclick="callFlaskRoute()">Search All</button>
+        </div>
+    </form>
+    <script>
+        function callFlaskRoute() {
+            window.location.href = '/allgames/'
+        }
+    </script>
 </body>
 </html>

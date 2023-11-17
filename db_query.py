@@ -78,13 +78,36 @@ def get_college_ranking():
 
     return data
 
-if __name__=='__main__':
-    args = {
-        'sport': '',
-        'college': 'davenport',
-        'start_time': '',
-        'end_time': ''
-    }
 
-    print(search_games(args))
-    print(get_college_ranking())
+def get_player_info(id):
+    id = str(id)
+    ex_statement = '''
+            SELECT *
+
+            FROM
+
+            players
+
+            WHERE id=?
+            '''
+
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(ex_statement, (id,))
+            data = cursor.fetchall()
+            if not data:
+                return []
+            return data[0]
+
+if __name__=='__main__':
+    pass
+    # args = {
+    #     'sport': '',
+    #     'college': 'davenport',
+    #     'start_time': '',
+    #     'end_time': ''
+    # }
+    #
+    # print(search_games(args))
+    # print(get_college_ranking())

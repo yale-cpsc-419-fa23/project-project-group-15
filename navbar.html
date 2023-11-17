@@ -2,22 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>Yale IMs Calendar</title>
-
-    <!--Bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-      rel="stylesheet" 
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous">
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </head>
 <body>
-    <!--Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Yale IMs Calendar</a>
@@ -32,8 +27,17 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/rank">Team Rankings</a>
               </li>
+              <!--Add New Links Here-->
+              <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
+            </ul>
+
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
               <li class="nav-item">
+              {% if signed_in %}
+                  <span class="navbar-text"> Hello, {{username}}</span>
+              {% else %}
                 <a class="nav-link active" aria-current="page" href="/login">Log In</a>
+              {% endif %}
               </li>
               <!--Add New Links Here-->
               <!--Documentation: https://getbootstrap.com/docs/5.3/components/navbar/-->
@@ -41,32 +45,5 @@
           </div>
         </div>
       </nav>
-
-    <form style="text-align: center; padding: 32px;" action="/games">
-        <div>
-            <input type="text" id="sport_form" name="sport" placeholder="Sport" value="{{search_terms.sport}}"/><br><br>
-        </div>
-        <div>
-            <input type="text" id="college_form" name="college" placeholder="College" value="{{search_terms.college}}"/><br><br>
-        </div>
-
-        <div>
-            <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
-        </div>
-
-        <div>
-            <input type="text" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
-        </div>
-
-        <div>
-            <button>Submit</button>
-            <button onclick="callFlaskRoute()">Search All</button>
-        </div>
-    </form>
-    <script>
-        function callFlaskRoute() {
-            window.location.href = '/allgames/'
-        }
-    </script>
 </body>
 </html>
