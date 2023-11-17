@@ -6,9 +6,8 @@
 
     <title>IM Games Calendar</title>
 
-     <!-- Stylesheet -->
-     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
     <!--Calendar-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -56,50 +55,6 @@
           calendar.render();
         });
 
-        // Get a reference to the select element
-        var selectElement = document.getElementById("college_form");
-
-        // Define an array of sports you want to add
-        var colleges = [
-            'Benjamin Franklin',
-            'Berkeley',
-            'Branford',
-            'Davenport',
-            'Ezra Stiles',
-            'Grace Hopper',
-            'Jonathan Edwards',
-            'Morse College',
-            'Pauli Murray',
-            'Pierson',
-            'Saybrook',
-            'Silliman',
-            'Timothy Dwight',
-            'Trumbull']
-
-        // Loop through the array and add options to the select element
-        for (var i = 0; i < colleges.length; i++) {
-            var option = document.createElement("option");
-            option.value = colleges[i];
-            option.text = colleges[i];
-            selectElement.add(option);
-        }
-
-        // Get a reference to the select element
-        var selectElement = document.getElementById("sport_form");
-
-        // Define an array of sports you want to add
-        var sports = [
-            'Archery',
-            'Badmindton',
-            'Basketball',
-            'Boxing',
-            'Cycling',
-            'Diving',
-            'Equestrian',
-            'Fencing',
-            'Gymnastics',
-            'Judo']
-
     </script>
 
     <!--Bootstrap-->
@@ -141,21 +96,18 @@
 <!--  </nav>-->
 
   <form style="text-align: center; padding: 32px;" action="/games">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-          
     <div>
-          <select id="sport_form" name="sport">
-              <option value="" disabled selected>Select a sport</option>
-              <!-- Add more options as needed -->
-          </select><br><br>
-      </div>
-      <div>
+      <select id="sport_form" name="sport">
+        <option value="" disable selected>Select a Sport</option>
+        <!-- Add more options as needed -->
+      </select><br><br>
+    </div>
+        <div>
           <select id="college_form" name="college">
-              <option value="" disabled selected>Select a college</option>
-              <!-- Add more options as needed -->
+            <option value="" disable selected>Select a College</option>
+            <!-- Add more options as needed -->
           </select><br><br>
-      </div>
-
+        </div>
         <div>
             <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
         </div>
@@ -167,9 +119,88 @@
         <div>
             <button>Submit</button>
         </div>
-        </div>
   </form>
 
+  <script> 
+    // populates colleges drop down
+    makeCollegeList()
+    makeSportList()
+
+    function makeCollegeList() {
+            console.log("The list is being called");
+            // Get a reference to the select element
+            var selectElement = document.getElementById("college_form");
+            // Define an array of sports you want to add
+
+            //TODO: Make this search from database
+            var colleges = [
+                'Benjamin Franklin',
+                'Berkeley',
+                'Branford',
+                'Davenport',
+                'Ezra Stiles',
+                'Grace Hopper',
+                'Jonathan Edwards',
+                'Morse College',
+                'Pauli Murray',
+                'Pierson',
+                'Saybrook',
+                'Silliman',
+                'Timothy Dwight',
+                'Trumbull']
+
+
+            // Assuming you have a variable for the selected sport
+            var selectedCollege = "{{search_terms.college}}";
+
+            // Loop through the array and add options to the select element
+            for (var i = 0; i < colleges.length; i++) {
+                var option = document.createElement("option");
+                option.value = colleges[i];
+                option.text = colleges[i];
+                // Add conditional logic to set the 'selected' attribute
+                if (option.value === selectedCollege) {
+                    option.selected = true;
+                }
+                selectElement.add(option);
+            }
+           
+        }
+
+        function makeSportList() {
+            // Get a reference to the select element
+            var selectElement = document.getElementById("sport_form");
+            // Define an array of sports you want to add
+            var sports = [
+                'Archery',
+                'Badmindton',
+                'Basketball',
+                'Boxing',
+                'Cycling',
+                'Diving',
+                'Equestrian',
+                'Fencing',
+                'Gymnastics',
+                'Judo']
+
+            // Assuming you have a variable for the selected sport
+            var selectedSport = "{{search_terms.sport}}";
+            // Loop through the array and add options to the select element
+            for (var i = 0; i < sports.length; i++) {
+                var option = document.createElement("option");
+                option.value = sports[i];
+                option.text = sports[i];
+
+                // Add conditional logic to set the 'selected' attribute
+                if (option.value === selectedSport) {
+                    option.selected = true;
+                }
+                selectElement.add(option);
+            }
+        }
+           
+    
+  </script>
   <!--Calendar Test-->
   <div id='calendar'; width: 80%;></div>
 </body>

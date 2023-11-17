@@ -50,6 +50,7 @@ def search_games(args):
             # print(ex_statement)
             cursor.execute(ex_statement, terms)
             data = cursor.fetchall()
+            print(data)
 
     return data
 
@@ -102,16 +103,34 @@ def get_player_info(id):
         
 def get_colleges():
     search = '''
-        SELECT *
-        FROM colleges
+    SELECT id
+    FROM colleges
     '''
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
             cursor.execute(search)
             data = cursor.fetchall()
 
     return data
 
+def games_low_players():
+    ex_statement = '''
+            SELECT games.id
+            FROM games JOIN players_games
+            on games.id=players_games.g_id
+            GROUP BY games.id
+            HAVING count(p_id) = 1
+            '''
+
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            # print(ex_statement)
+            cursor.execute(ex_statement)
+            data = cursor.fetchall()
+            if not data:
+                return []
+            return data
 
 if __name__=='__main__':
     pass

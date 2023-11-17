@@ -8,6 +8,7 @@ import secrets
 from db_creator import get_players, add_game, add_players
 from db_creator import test
 from db_query import get_college_ranking
+from db_query import games_low_players
 from hashlib import sha256
 from xmltodict import parse
 
@@ -15,6 +16,13 @@ from xmltodict import parse
 from urllib.request import urlopen
 
 app = Flask(__name__, template_folder='.')
+
+
+#CAS(app)
+#app.config['CAS_SERVER'] = 'https://secure.its.yale.edu'
+#app.config['CAS_LOGIN_ROUTE']='/cas/login'
+#app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
+#app.secret_key = secrets.token_urlsafe(16)
 # from flask_cas import CAS
 
 # CAS(app)
@@ -29,12 +37,10 @@ def main_page():
     search_terms = {}
     signed_in= "CAS_USERNAME" in session
     user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
+    # colleges = get_colleges()
+    # print(colleges)
 
-    #TODO Add search for current colleges in db
-    colleges = get_colleges()
-
-    return render_template('index.html', search_terms=search_terms,
-                           signed_in=signed_in, username=user, colleges=colleges)
+    return render_template('index.html', search_terms=search_terms, signed_in=signed_in, username=user)
 
 @app.route('/games', methods=['POST', 'GET'])
 def games():
@@ -141,11 +147,23 @@ def cas_testing():
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
 @app.route('/allgames', methods=['POST', 'GET'])
 def allgames():
-
+    print("all gamescalled")
     terms = {}
 
     resp = make_response(render_template('games.html', search_terms=terms))
+    return resp
 
+
+@app.route('/lowplayers', methods=['POST', 'GET'])
+def lowplayers():
+    print("AAAAAAAAAAAAAAAA")
+
+    #returns game IDs with low players
+    games = games_low_players()
+    print(games)
+
+    resp = make_response(render_template('AAAA.html'))
+    #
     return resp
 
 @app.route('/rank', methods=['POST', 'GET'])
