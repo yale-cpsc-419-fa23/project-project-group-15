@@ -23,6 +23,6 @@ button {
 }
 
 
-table tr:hover {
+.ranking tr:hover {
     background-color: lightgrey;
 }
