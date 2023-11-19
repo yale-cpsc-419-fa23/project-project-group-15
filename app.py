@@ -115,9 +115,11 @@ def get_events():
 #Signup Page
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
-    players = get_teams(game_id)
+    possible_players = get_teams(game_id)
 
-    resp = make_response(render_template('sign_up.html', game_id=game_id, players=players))
+    players = get_players(game_id)
+
+    resp = make_response(render_template('sign_up.html', game_id=game_id, possible_players=possible_players, players=players))
 
     return resp
 

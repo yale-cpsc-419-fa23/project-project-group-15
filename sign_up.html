@@ -18,40 +18,52 @@
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/static/nav_bar_insert.js"></script>
+    <script style="margin: 0;" src="/static/nav_bar_insert.js"></script>
 
-      
-      <h1>Sign Up to Play!</h1>
+      <div style="margin: 10px;">
 
-      <!--TODO: Add basic game info with a lookup-->
+        <h1 style="text-align: center;">Sign Up to Play!</h1><br>
 
-      <h2>Players</h2>
-      <ul>
-          {% for item in players %}
-              <li>{{ item }}</li>
-          {% endfor %}
-      </ul>
+        <!--TODO: Add basic game info with a lookup-->
 
-      <form action="/confirm_signup/{{game_id}}" method="post">
-          <input type="hidden" name="id" value="{{game_id}}">
-          <input type="submit" value="Submit">
-      </form>
-<!--    <p>{{data}}</p>-->
-    <table>
-        <tr>
-<!--         label, date, agents, classifiers-->
-            <th> # </th>
-            <th>Player</th>
-            <th>College</th>
-        </tr>
-        {% for i in range(data|length) %}
-        <tr>
-<!--         label, date, agents, classifiers-->
-            <td> {{i+1}} </td>
-            <td> {{data[i][0]}} </td>
-            <td> {{data[i][1]}} </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h3>Eligible Players</h3>
+        <ul>
+            {% for team in possible_players %}
+                <li>{{ team[0] }}
+                    <ul>
+                        <li>{{team[1]}}</li>
+                    </ul>
+                </li>
+                
+            {% endfor %}
+        </ul>
+
+        <form action="/confirm_signup/{{game_id}}" method="post">
+            <input type="hidden" name="id" value="{{game_id}}">
+            <input type="submit" value="Sign Up!">
+        </form>
+    
+    <br>
+
+    <h3>Currently Signed Up to Play:</h3>
+        <table style="width: 20%; margin: 10px;">
+            <tr>
+    <!--         label, date, agents, classifiers-->
+                <th> # </th>
+                <th>Player</th>
+                <th>College</th>
+            </tr>
+            {% for i in range(players|length) %}
+            <tr>
+    <!--         label, date, agents, classifiers-->
+                <td> {{i+1}} </td>
+                <td> {{players[i][0]}} </td>
+                <td> {{players[i][1]}} </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br><p><b>Note:</b> You must be logged in to sign up for games.</p>
+    </div>
 </body>
 </html>
