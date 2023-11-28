@@ -88,6 +88,7 @@ def get_events():
     event_terms['college'] = college
     event_terms['start_time'] = start
     event_terms['end_time'] = end
+    event_terms['player_threshold']=1
 
     results = search_games(event_terms)
     for game in results:

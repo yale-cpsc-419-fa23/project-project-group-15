@@ -26,6 +26,11 @@ def search_games(args):
             where_clause += "time<= ? AND "
             terms.append(args['end_time'])
 
+        if 'player_threshold' in args:
+            where_clause += "(player_count IS NULL OR player_count<=?) AND "
+            terms.append(args['player_threshold'])
+
+
         if where_clause:
             where_clause = where_clause[:-4]
             where_clause = 'HAVING ' + where_clause
@@ -34,11 +39,17 @@ def search_games(args):
 
     where_clause, terms = generate_where_clause(args)
     ex_statement = f'''
-    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', '), games.id
-    
+    SELECT MIN(location), MIN(time), MIN(sport), GROUP_CONCAT(c_id, ', '), games.id, player_count
+
     FROM
-    
+
     games JOIN colleges_games on games.id = colleges_games.g_id
+    LEFT JOIN
+    (   SELECT g_id, count(p_id) as 'player_count'
+        FROM
+        games JOIN players_games on games.id = players_games.g_id
+        GROUP BY g_id) p
+    on games.id=p.g_id
     
     group by games.id
     {where_clause}
