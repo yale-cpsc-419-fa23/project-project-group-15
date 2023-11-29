@@ -110,13 +110,13 @@ def fill_colleges():
     INSERT INTO colleges(id)
     VALUES 
     
-    {', '.join([f'("{n}")' for n in colleges])};
+    {', '.join([f'(?)' for n in colleges])};
     '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, colleges)
 
 
 def fill_players():
@@ -269,30 +269,32 @@ def add_game(location, sport, time, college1, college2):
             data = cursor.fetchall()
             num_games=int(data[0][0])
 
+    args=[num_games, location, time, sport]
     ex_statement = f'''
                 INSERT INTO games(id, location, time, sport)
                 VALUES 
 
-                ({num_games}, "{location}", "{time}",  "{sport}")
+                (?, ?, ?,  ?)
                 '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
 
+    args=college1, num_games, college2, num_games
     ex_statement = f'''
     INSERT INTO colleges_games(c_id, g_id)
     VALUES 
 
-    ("{college1}", {num_games}),
-    ("{college2}", {num_games})
+    (?, ?),
+    (?, ?)
     '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
 
 
 
@@ -310,17 +312,18 @@ def add_players(name, college, id=''):
                 id = int(data[0][0])
 
 
+    args=id, name, college
     ex_statement = f'''
             INSERT INTO players(id, name, college)
             VALUES 
 
-            ("{id}", "{name}", "{college}");
+            (?, ?, ?);
             '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
 
     return id
 
@@ -330,11 +333,13 @@ def sign_up_player(p_id, g_id):
     player_college=get_college(p_id)
     teams=[t[0] for t in get_teams(g_id)]
     if player_college in teams:
+
+        args=p_id, g_id
         ex_statement = f'''
         INSERT INTO players_games(p_id, g_id)
         VALUES 
         
-        ("{p_id}", {g_id})
+        (?, ?)
             '''
 
             # print(ex_statement)
@@ -342,7 +347,7 @@ def sign_up_player(p_id, g_id):
         with sql.connect("intramural.sqlite") as conn:
             with closing(conn.cursor()) as cursor:
                 try:
-                    cursor.execute(ex_statement)
+                    cursor.execute(ex_statement, args)
                 except sql.IntegrityError:
                     # print('cannot sign up player')
                     return False
@@ -351,11 +356,12 @@ def sign_up_player(p_id, g_id):
 
 
 def get_teams(g_id):
+    args=(g_id,)
     ex_statement = f'''
         SELECT c_id, GROUP_CONCAT(players.name, ', ')
         FROM colleges_games JOIN players
         on players.college=colleges_games.c_id
-        WHERE g_id={g_id}
+        WHERE g_id=?
         
         GROUP BY c_id
         '''
@@ -363,42 +369,46 @@ def get_teams(g_id):
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
             data = cursor.fetchall()
             return data
 
 
 
 def get_college(p_id):
+
+    args=(p_id,)
     ex_statement = f'''
         SELECT college FROM
         players
 
-        WHERE id="{p_id}"
+        WHERE id=?
         '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
             data = cursor.fetchall()
             if not data:
                 return []
             return data[0][0]
 
 def get_possible_games(p_id, start=None, end=None):
+
+    args=(get_college(p_id),)
     ex_statement = f'''
     SELECT g_id FROM
     colleges_games
     
-    WHERE c_id="{get_college(p_id)}"
+    WHERE c_id=?
     
     '''
 
     # print(ex_statement)
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
             data = cursor.fetchall()
             return [int(d[0]) for d in data]
 
@@ -415,29 +425,32 @@ def create_winners(college):
             num_games = int(data[0][0])
 
 
+    args=(num_games//2,)
     ex_statement=f'''
     UPDATE colleges_games
     SET winner = 1
     
-    WHERE g_id<{num_games//2}
+    WHERE g_id<?
     '''
 
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
             # print(ex_statement)
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
             data = cursor.fetchall()
 
 def get_players(game_id):
+
+    args=(game_id,)
     ex_statement = f'''
     SELECT name, college FROM players_games
     JOIN players
     ON players.id=players_games.p_id
-    WHERE g_id = {game_id}
+    WHERE g_id = ?
     '''
     with sql.connect("intramural.sqlite") as conn:
         with closing(conn.cursor()) as cursor:
-            cursor.execute(ex_statement)
+            cursor.execute(ex_statement, args)
             data = cursor.fetchall()
     return data
 
