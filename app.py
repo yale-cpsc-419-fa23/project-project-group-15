@@ -200,16 +200,24 @@ def admin():
 
     #If form submitted try adding game
      if request.method == 'POST':
+        try:
+            password = request.form['Password']
+            location = request.form['Location']
+            name = request.form['sport']
+            college1 = request.form['college1']
+            college2 = request.form['college2']
+            date = request.form['date']
 
-        password = request.form['Password']
-        location = request.form['Location']
-        name = request.form['Activity Name']
-        college1 = request.form['college1']
-        college2 = request.form['college2']
-        date = request.form['date']
+            if college1==college2:
+                print('invalid event details')
+                return render_template('admin.html', message="Invalid event details")
+        except BadRequestKeyError:
+            print('invalid event details')
+            return render_template('admin.html', message="Invalid event details")
+
 
         #TODO: Make authentication more secure.
-        if sha256(password.encode('utf-8')).hexdigest() == 'e49d560cd008344edf745b8052ef714b07595808898c835f17f962a10012f964':
+        if sha256(password.encode('utf-8')).hexdigest() == '19dfbaf67fffd364618132fcfe5b1f7938f5bddd5fe95a9658b7e46d81e14120':
             add_game(location, name, date, college1, college2)
             print("Added Game!")
 
@@ -311,3 +319,6 @@ def navbar():
 def get_login_state():
     signed_in= "CAS_USERNAME" in session
     return jsonify(signed_in)
+
+if __name__=='__main__':
+    print(sha256('CPSC419'.encode('utf-8')).hexdigest())

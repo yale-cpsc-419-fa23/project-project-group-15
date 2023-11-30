@@ -24,6 +24,8 @@
                     alert("Event added successfully!");
                 } else if (message === 'Incorrect password') {
                     alert("Incorrect password. Please try again.");
+                } else if (message ==='Invalid event details'){
+                    alert("Invalid event details. Please try again.")
                 }
         });
     </script>
@@ -62,23 +64,82 @@
         </div>
 
         <div>
-            <input type="text" id="name_form" name="Activity Name" placeholder="Activity Name" value=""/><br><br>
-        </div>
-
-        <div>
             <input type="text" id="location_form" name="Location" placeholder="Location" value=""/><br><br>
         </div>
 
+
         <div>
-            <input type="text" id="college1_form" name="college1" placeholder="College 1" value=""/><br><br>
+            <label>Sport</label>
+            <br>
+            <select id="sport_form" name="sport">
+            <option value="" disabled selected hidden>Select a sport</option>
+            <option value="Archery">Archery</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Boxing">Boxing</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Diving">Diving</option>
+            <option value="Equestrian">Equestrian</option>
+            <option value="Fencing">Fencing</option>
+            <option value="Gymnastics">Gymnastics</option>
+            <option value="Judo">Judo</option>
+
+            <!-- Add more options as needed -->
+            </select><br><br>
         </div>
 
         <div>
-            <input type="text" id="college2_form" name="college2" placeholder="College 2" value=""/><br><br>
+            <label>College 1</label>
+            <br>
+            <select id="college_form1" name="college1">
+            <option value="" disabled selected>Select a college</option>
+            <option value="Benjamin Franklin">Benjamin Franklin</option>
+            <option value="Berkeley">Berkeley</option>
+            <option value="Branford">Branford</option>
+            <option value="Davenport">Davenport</option>
+            <option value="Ezra Stiles">Ezra Stiles</option>
+            <option value="Grace Hopper">Grace Hopper</option>
+            <option value="Jonathan Edwards">Jonathan Edwards</option>
+            <option value="Morse College">Morse College</option>
+            <option value="Pauli Murray">Pauli Murray</option>
+            <option value="Pierson">Pierson</option>
+            <option value="Saybrook">Saybrook</option>
+            <option value="Silliman">Silliman</option>
+            <option value="Timothy Dwight">Timothy Dwight</option>
+            <option value="Trumbull">Trumbull</option>
+
+            <!-- Add more options as needed -->
+        </select><br><br>
         </div>
 
         <div>
-            <input type="text" id="date_form" name="date" placeholder="Date" value=""/><br><br>
+            <label>College 2</label>
+            <br>
+            <select id="college_form2" name="college2">
+            <option value="" disabled selected>Select a college</option>
+            <option value="Benjamin Franklin">Benjamin Franklin</option>
+            <option value="Berkeley">Berkeley</option>
+            <option value="Branford">Branford</option>
+            <option value="Davenport">Davenport</option>
+            <option value="Ezra Stiles">Ezra Stiles</option>
+            <option value="Grace Hopper">Grace Hopper</option>
+            <option value="Jonathan Edwards">Jonathan Edwards</option>
+            <option value="Morse College">Morse College</option>
+            <option value="Pauli Murray">Pauli Murray</option>
+            <option value="Pierson">Pierson</option>
+            <option value="Saybrook">Saybrook</option>
+            <option value="Silliman">Silliman</option>
+            <option value="Timothy Dwight">Timothy Dwight</option>
+            <option value="Trumbull">Trumbull</option>
+
+            <!-- Add more options as needed -->
+        </select><br><br>
+        </div>
+
+        <div>
+            <label>Date</label>
+            <br>
+            <input type="date" id="date_form" name="date"/><br><br>
         </div>
 
         <div>
