@@ -1,14 +1,10 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect, session, current_app
 from werkzeug.exceptions import BadRequestKeyError
-from db_creator import get_teams
-from db_query import search_games, get_player_info, get_colleges
-from db_creator import sign_up_player
 from contextlib import closing
 import secrets
-from db_creator import get_players, add_game, add_players
-from db_creator import test
-from db_query import get_college_ranking
-from db_query import games_low_players
+from db_creator import  add_game, add_players, sign_up_player
+from db_query import search_games, get_player_info, get_colleges, get_teams, get_players, get_college_ranking, games_low_players
+
 from hashlib import sha256
 from xmltodict import parse
 
