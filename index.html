@@ -28,103 +28,57 @@
     <form style="text-align: center; padding: 32px;" action="/games">
         <select id="sport_form" name="sport">
             <option value="" disabled selected>Select a sport</option>
+            <option value="Archery">Archery</option>
+            <option value="Badminton">Badminton</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Boxing">Boxing</option>
+            <option value="Cycling">Cycling</option>
+            <option value="Diving">Diving</option>
+            <option value="Equestrian">Equestrian</option>
+            <option value="Fencing">Fencing</option>
+            <option value="Gymnastics">Gymnastics</option>
+            <option value="Judo">Judo</option>
+
             <!-- Add more options as needed -->
         </select><br><br>
+
         <select id="college_form" name="college">
             <option value="" disabled selected>Select a college</option>
+            <option value="Benjamin Franklin">Benjamin Franklin</option>
+            <option value="Berkeley">Berkeley</option>
+            <option value="Branford">Branford</option>
+            <option value="Davenport">Davenport</option>
+            <option value="Ezra Stiles">Ezra Stiles</option>
+            <option value="Grace Hopper">Grace Hopper</option>
+            <option value="Jonathan Edwards">Jonathan Edwards</option>
+            <option value="Morse College">Morse College</option>
+            <option value="Pauli Murray">Pauli Murray</option>
+            <option value="Pierson">Pierson</option>
+            <option value="Saybrook">Saybrook</option>
+            <option value="Silliman">Silliman</option>
+            <option value="Timothy Dwight">Timothy Dwight</option>
+            <option value="Trumbull">Trumbull</option>
+
             <!-- Add more options as needed -->
-        </select><br><br>
-        
+        </select>
+
+        <br><br>
 
         <div>
+            <label>Start Date</label>
+            <br>
             <input type="date" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
         </div>
 
         <div>
+            <label>End Date</label>
+            <br>
             <input type="date" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
         </div>
 
         <div>
             <button>Submit</button>
-            <form action="/allgames/" method="post">
-                <button name="for" type="submit">Search All</button>
-{#                <button onclick="callFlaskRoute()">Search All</button>#}
-            </form>
-            <form action="/allgames/" method="post">
-                <button name="forwardBtn" type="submit">Forward</button>
-            </form>
         </div>
     </form>
-    <script>
-        makeCollegeList() 
-        makeSportList()
-
-        function callFlaskRoute() {
-            window.location.href = '/allgames/'
-        }
-
-        function makeCollegeList() {
-            // Get a reference to the select element
-            var selectElement = document.getElementById("college_form");
-            // Define an array of sports you want to add
-
-            //TODO: Make this search from database
-            var colleges = [
-                'Benjamin Franklin',
-                'Berkeley',
-                'Branford',
-                'Davenport',
-                'Ezra Stiles',
-                'Grace Hopper',
-                'Jonathan Edwards',
-                'Morse College',
-                'Pauli Murray',
-                'Pierson',
-                'Saybrook',
-                'Silliman',
-                'Timothy Dwight',
-                'Trumbull']
-
-            //TODO: fix the default setting when you return via nav bar
-            // Loop through the array and add options to the select element
-            for (var i = 0; i < colleges.length; i++) {
-                var option = document.createElement("option");
-                option.value = colleges[i];
-                option.text = colleges[i];
-                option.selected = false;
-                selectElement.add(option);
-            }
-           
-        }
-
-        function makeSportList() {
-            // Get a reference to the select element
-            var selectElement = document.getElementById("sport_form");
-            // Define an array of sports you want to add
-            var sports = [
-                'Archery',
-                'Badminton',
-                'Basketball',
-                'Boxing',
-                'Cycling',
-                'Diving',
-                'Equestrian',
-                'Fencing',
-                'Gymnastics',
-                'Judo']
-
-            // Loop through the array and add options to the select element
-            for (var i = 0; i < sports.length; i++) {
-                var option = document.createElement("option");
-                option.value = sports[i];
-                option.text = sports[i];
-
-                selectElement.add(option);
-            }
-        }
-        
-       
-    </script>
-
 </body>
 </html>
