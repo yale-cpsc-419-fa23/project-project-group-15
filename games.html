@@ -72,24 +72,31 @@
 
   <!--Search Form-->
   <form style="text-align: center; padding: 32px;" action="/games">
-    <div>
-      <select id="sport_form" name="sport">
-        <option value="" disable selected>Select a Sport</option>
-        <!-- Add more options as needed -->
-      </select><br><br>
-    </div>
-        <div>
-          <select id="college_form" name="college">
-            <option value="" disable selected>Select a College</option>
+        <select id="sport_form" name="sport">
+            <option value="">Select a sport</option>
+
             <!-- Add more options as needed -->
-          </select><br><br>
-        </div>
+        </select><br><br>
+
+        <select id="college_form" name="college" value="test">
+            <option value="">Select a college</option>
+
+            <!-- Add more options as needed -->
+        </select>
+
+        <br><br>
+
         <div>
-            <input type="text" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
+            <label>Start Date</label>
+            <br>
+            <input type="date" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
         </div>
 
         <div>
-            <input type="text" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+            <label>End Date</label>
+            <br>
+            <input type="date" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+
         </div>
 
         <div>
