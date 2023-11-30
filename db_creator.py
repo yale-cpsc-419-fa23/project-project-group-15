@@ -372,8 +372,7 @@ def get_teams(g_id):
             cursor.execute(ex_statement, args)
             data = cursor.fetchall()
             return data
-
-
+        
 
 def get_college(p_id):
 
