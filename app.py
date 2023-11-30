@@ -34,13 +34,30 @@ app.secret_key = secrets.token_urlsafe(16)
 
 @app.route('/')
 def main_page():
-    search_terms = {}
+    terms = {}
+    try:
+        terms['sport'] =request.args['sport']
+    except BadRequestKeyError:
+        terms['sport'] =request.cookies.get('s') or ''
+    try:
+        terms['college']=request.args['college']
+    except BadRequestKeyError:
+        terms['college']=request.cookies.get('c') or ''
+    try:
+        terms['start_date']=request.args['start_date']
+    except BadRequestKeyError:
+        terms['start_date']=request.cookies.get('sd') or ''
+    try:
+        terms['end_date']=request.args['end_date']
+    except BadRequestKeyError:
+        terms['end_date']=request.cookies.get('ed') or ''
+
     signed_in= "CAS_USERNAME" in session
     user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
     # colleges = get_colleges()
     # print(colleges)
 
-    return render_template('index.html', search_terms=search_terms)
+    return render_template('index.html', search_terms=terms)
 
 @app.route('/games', methods=['POST', 'GET'])
 def games():

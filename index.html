@@ -27,37 +27,13 @@
 
     <form style="text-align: center; padding: 32px;" action="/games">
         <select id="sport_form" name="sport">
-            <option value="" disabled selected>Select a sport</option>
-            <option value="Archery">Archery</option>
-            <option value="Badminton">Badminton</option>
-            <option value="Basketball">Basketball</option>
-            <option value="Boxing">Boxing</option>
-            <option value="Cycling">Cycling</option>
-            <option value="Diving">Diving</option>
-            <option value="Equestrian">Equestrian</option>
-            <option value="Fencing">Fencing</option>
-            <option value="Gymnastics">Gymnastics</option>
-            <option value="Judo">Judo</option>
+            <option value="">Select a sport</option>
 
             <!-- Add more options as needed -->
         </select><br><br>
 
-        <select id="college_form" name="college">
-            <option value="" disabled selected>Select a college</option>
-            <option value="Benjamin Franklin">Benjamin Franklin</option>
-            <option value="Berkeley">Berkeley</option>
-            <option value="Branford">Branford</option>
-            <option value="Davenport">Davenport</option>
-            <option value="Ezra Stiles">Ezra Stiles</option>
-            <option value="Grace Hopper">Grace Hopper</option>
-            <option value="Jonathan Edwards">Jonathan Edwards</option>
-            <option value="Morse College">Morse College</option>
-            <option value="Pauli Murray">Pauli Murray</option>
-            <option value="Pierson">Pierson</option>
-            <option value="Saybrook">Saybrook</option>
-            <option value="Silliman">Silliman</option>
-            <option value="Timothy Dwight">Timothy Dwight</option>
-            <option value="Trumbull">Trumbull</option>
+        <select id="college_form" name="college" value="test">
+            <option value="">Select a college</option>
 
             <!-- Add more options as needed -->
         </select>
@@ -81,5 +57,85 @@
             <button>Submit</button>
         </div>
     </form>
+
+
+  <script>
+    // populates colleges drop down
+    makeCollegeList()
+    makeSportList()
+
+    function makeCollegeList() {
+            console.log("The list is being called");
+            // Get a reference to the select element
+            var selectElement = document.getElementById("college_form");
+            // Define an array of sports you want to add
+
+            //TODO: Make this search from database
+            var colleges = [
+                'Benjamin Franklin',
+                'Berkeley',
+                'Branford',
+                'Davenport',
+                'Ezra Stiles',
+                'Grace Hopper',
+                'Jonathan Edwards',
+                'Morse College',
+                'Pauli Murray',
+                'Pierson',
+                'Saybrook',
+                'Silliman',
+                'Timothy Dwight',
+                'Trumbull']
+
+
+            // Assuming you have a variable for the selected sport
+            var selectedCollege = "{{search_terms.college}}";
+
+            // Loop through the array and add options to the select element
+            for (var i = 0; i < colleges.length; i++) {
+                var option = document.createElement("option");
+                option.value = colleges[i];
+                option.text = colleges[i];
+                // Add conditional logic to set the 'selected' attribute
+                if (option.value === selectedCollege) {
+                    option.selected = true;
+                }
+                selectElement.add(option);
+            }
+
+        }
+
+        function makeSportList() {
+            // Get a reference to the select element
+            var selectElement = document.getElementById("sport_form");
+            // Define an array of sports you want to add
+            var sports = [
+                'Archery',
+                'Badminton',
+                'Basketball',
+                'Boxing',
+                'Cycling',
+                'Diving',
+                'Equestrian',
+                'Fencing',
+                'Gymnastics',
+                'Judo']
+
+            // Assuming you have a variable for the selected sport
+            var selectedSport = "{{search_terms.sport}}";
+            // Loop through the array and add options to the select element
+            for (var i = 0; i < sports.length; i++) {
+                var option = document.createElement("option");
+                option.value = sports[i];
+                option.text = sports[i];
+
+                // Add conditional logic to set the 'selected' attribute
+                if (option.value === selectedSport) {
+                    option.selected = true;
+                }
+                selectElement.add(option);
+            }
+        }
+  </script>
 </body>
 </html>
