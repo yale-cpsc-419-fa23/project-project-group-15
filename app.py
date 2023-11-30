@@ -230,7 +230,9 @@ def admin():
 
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
-    login_url='https://secure.its.yale.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F'
+    port = request.host.split(':')[-1]
+
+    login_url= f'https://secure.its.yale.edu/cas/login?service=http%3A%2F%2F127.0.0.1%3A' + str(port) + f'%2Flogin%2F'
     redirect_url=login_url
     cookies={}
 
@@ -256,7 +258,9 @@ def login():
 
 
 def validate(ticket):
-    validation_url=f'https://secure.its.yale.edu/cas/serviceValidate?service=http%3A%2F%2F127.0.0.1%3A5000%2Flogin%2F&ticket={ticket}'
+    port = request.host.split(':')[-1]
+
+    validation_url=f'https://secure.its.yale.edu/cas/serviceValidate?service=http%3A%2F%2F127.0.0.1%3A' + str(port) + f'%2Flogin%2F&ticket={ticket}'
     current_app.logger.info(f'attempting to validate login credentials at {validation_url}')
     val_xml=urlopen(validation_url).read().strip().decode('utf8', 'ignore')
     val_dic=parse(val_xml)
