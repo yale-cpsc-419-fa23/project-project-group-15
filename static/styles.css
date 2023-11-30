@@ -22,7 +22,11 @@ button {
     /* Add other styling properties as needed */
 }
 
-
 .ranking tr:hover {
     background-color: lightgrey;
 }
+
+.date-input {
+    margin-right: 10px; /* Adjust spacing between inputs */
+}
+
