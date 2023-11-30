@@ -143,6 +143,80 @@ def games_low_players():
                 return []
             return data
 
+
+def get_teams(g_id):
+    args = (g_id,)
+    ex_statement = f'''
+        SELECT c_id, GROUP_CONCAT(players.name, ', ')
+        FROM colleges_games JOIN players
+        on players.college=colleges_games.c_id
+        WHERE g_id=?
+
+        GROUP BY c_id
+        '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement, args)
+            data = cursor.fetchall()
+            return data
+
+
+def get_college(p_id):
+    args = (p_id,)
+    ex_statement = f'''
+        SELECT college FROM
+        players
+
+        WHERE id=?
+        '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement, args)
+            data = cursor.fetchall()
+            if not data:
+                return []
+            return data[0][0]
+
+
+def get_possible_games(p_id, start=None, end=None):
+    args = (get_college(p_id),)
+    ex_statement = f'''
+    SELECT g_id FROM
+    colleges_games
+
+    WHERE c_id=?
+
+    '''
+
+    # print(ex_statement)
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement, args)
+            data = cursor.fetchall()
+            return [int(d[0]) for d in data]
+
+
+
+def get_players(game_id):
+
+    args=(game_id,)
+    ex_statement = f'''
+    SELECT name, college FROM players_games
+    JOIN players
+    ON players.id=players_games.p_id
+    WHERE g_id = ?
+    '''
+    with sql.connect("intramural.sqlite") as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute(ex_statement, args)
+            data = cursor.fetchall()
+    return data
+
+
 if __name__=='__main__':
     pass
     # args = {
