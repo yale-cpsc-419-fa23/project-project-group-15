@@ -46,7 +46,13 @@
 
         <div>
             <button>Submit</button>
-            <button onclick="callFlaskRoute()">Search</button>
+            <form action="/allgames/" method="post">
+                <button name="for" type="submit">Search All</button>
+{#                <button onclick="callFlaskRoute()">Search All</button>#}
+            </form>
+            <form action="/allgames/" method="post">
+                <button name="forwardBtn" type="submit">Forward</button>
+            </form>
         </div>
     </form>
     <script>

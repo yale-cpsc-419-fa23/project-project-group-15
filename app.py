@@ -148,8 +148,8 @@ def cas_testing():
 
     except KeyError:
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
-@app.route('/allgames', methods=['POST', 'GET'])
-def allgames():
+@app.route("/allgames/", methods=['POST'])
+def move_forward():
     print("all gamescalled")
     terms = {}
 
