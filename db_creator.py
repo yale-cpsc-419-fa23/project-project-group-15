@@ -1,6 +1,7 @@
 import sqlite3 as sql
 from contextlib import closing
 import random
+from db_query import get_college, get_teams
 
 def create_database():
     ex_statements=[]
