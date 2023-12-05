@@ -21,7 +21,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             var message = "{{ message }}";
                 if (message === 'Success') {
-                    alert("Event added successfully!");
+                    alert("Winner Set successfully!");
                 } else if (message === 'Incorrect password') {
                     alert("Incorrect password. Please try again.");
                 } else if (message ==='Invalid event details'){
@@ -37,40 +37,20 @@
     <script src="/static/nav_bar_insert.js"></script>
 
     <h1 style="text-align: center;">~IM Admin Page~</h1>  
-    <form style="text-align: center; padding: 32px;" action="/admin", method="post">
+    <form style="text-align: center; padding: 32px;" action="/set_winner", method="post">
         <div>
             <input type="password" id="password" name="Password" placeholder="IM Admin Password" value=""/><br><br>
         </div>
 
         <div>
-            <input type="text" id="location_form" name="Location" placeholder="Location" value=""/><br><br>
+            <input type="text" id="game_id_form" name="Game_ID" placeholder="Game ID" value=""/><br><br>
         </div>
 
 
         <div>
-            <label>Sport</label>
-            <br>
-            <select id="sport_form" name="sport">
-            <option value="" disabled selected hidden>Select a sport</option>
-            <option value="Archery">Archery</option>
-            <option value="Badminton">Badminton</option>
-            <option value="Basketball">Basketball</option>
-            <option value="Boxing">Boxing</option>
-            <option value="Cycling">Cycling</option>
-            <option value="Diving">Diving</option>
-            <option value="Equestrian">Equestrian</option>
-            <option value="Fencing">Fencing</option>
-            <option value="Gymnastics">Gymnastics</option>
-            <option value="Judo">Judo</option>
-
-            <!-- Add more options as needed -->
-            </select><br><br>
-        </div>
-
-        <div>
-            <label>College 1</label>
-            <br>
-            <select id="college_form1" name="college1">
+<!--            <label>College</label>-->
+<!--            <br>-->
+            <select id="college_form" name="college">
             <option value="" disabled selected>Select a college</option>
             <option value="Benjamin Franklin">Benjamin Franklin</option>
             <option value="Berkeley">Berkeley</option>
@@ -89,36 +69,6 @@
 
             <!-- Add more options as needed -->
         </select><br><br>
-        </div>
-
-        <div>
-            <label>College 2</label>
-            <br>
-            <select id="college_form2" name="college2">
-            <option value="" disabled selected>Select a college</option>
-            <option value="Benjamin Franklin">Benjamin Franklin</option>
-            <option value="Berkeley">Berkeley</option>
-            <option value="Branford">Branford</option>
-            <option value="Davenport">Davenport</option>
-            <option value="Ezra Stiles">Ezra Stiles</option>
-            <option value="Grace Hopper">Grace Hopper</option>
-            <option value="Jonathan Edwards">Jonathan Edwards</option>
-            <option value="Morse College">Morse College</option>
-            <option value="Pauli Murray">Pauli Murray</option>
-            <option value="Pierson">Pierson</option>
-            <option value="Saybrook">Saybrook</option>
-            <option value="Silliman">Silliman</option>
-            <option value="Timothy Dwight">Timothy Dwight</option>
-            <option value="Trumbull">Trumbull</option>
-
-            <!-- Add more options as needed -->
-        </select><br><br>
-        </div>
-
-        <div>
-            <label>Date</label>
-            <br>
-            <input type="date" id="date_form" name="date"/><br><br>
         </div>
 
         <div>

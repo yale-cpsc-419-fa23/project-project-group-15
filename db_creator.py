@@ -37,7 +37,6 @@ def create_database():
     CREATE TABLE colleges_games(
     c_id TEXT NOT NULL,
     g_id INT NOT NULL,
-    score INT,
     winner INT,
     FOREIGN KEY(c_id) REFERENCES colleges(id),
     FOREIGN KEY(g_id) REFERENCES  games(id),
@@ -85,8 +84,7 @@ def fill_database():
     fill_colleges()
     fill_games()
     fill_players()
-    create_winners('Davenport')
-    create_winners('Jonathan Edwards')
+    create_winners()
 
 
 def fill_colleges():
@@ -356,7 +354,7 @@ def sign_up_player(p_id, g_id):
     return False
 
 
-def create_winners(college):
+def create_winners():
     ex_statement = f'''
                     SELECT COUNT(*) from games
                     '''
@@ -369,21 +367,49 @@ def create_winners(college):
             num_games = int(data[0][0])
 
 
-    args=(num_games//2,)
-    ex_statement=f'''
-    UPDATE colleges_games
-    SET winner = 1
-    
-    WHERE g_id<?
-    '''
+    for g_id in range(num_games):
+        colleges=[t[0] for t in get_teams(g_id)]
+        c_id=random.choice(colleges)
+        set_winner(c_id, g_id)
+    # args=(num_games//2,)
+    # ex_statement=f'''
+    # UPDATE colleges_games
+    # SET winner = 1
+    #
+    # WHERE g_id<?
+    # '''
+    #
+    # with sql.connect("intramural.sqlite") as conn:
+    #     with closing(conn.cursor()) as cursor:
+    #         # print(ex_statement)
+    #         cursor.execute(ex_statement, args)
+    #         data = cursor.fetchall()
 
-    with sql.connect("intramural.sqlite") as conn:
-        with closing(conn.cursor()) as cursor:
-            # print(ex_statement)
-            cursor.execute(ex_statement, args)
-            data = cursor.fetchall()
+def set_winner(c_id, g_id):
+    args=(c_id, g_id)
+
+    colleges = [t[0] for t in get_teams(g_id)]
+
+    if c_id in colleges:
+        ex_statement = f'''
+            UPDATE colleges_games
+            SET winner = (c_id=?)
+    
+            WHERE g_id=?
+            '''
+
+        with sql.connect("intramural.sqlite") as conn:
+            with closing(conn.cursor()) as cursor:
+                # print(ex_statement)
+                cursor.execute(ex_statement, args)
+
+        return True
+
+    return False
+
 
 
 if __name__=="__main__":
     create_database()
     fill_database()
+    # print(set_winner('Davenport', 100))

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify, make_response, redir
 from werkzeug.exceptions import BadRequestKeyError
 from contextlib import closing
 import secrets
-from db_creator import  add_game, add_players, sign_up_player
+from db_creator import  add_game, add_players, sign_up_player, set_winner
 from db_query import search_games, get_player_info, get_colleges, get_teams, get_players, get_college_ranking, games_low_players
 
 from hashlib import sha256
@@ -192,11 +192,11 @@ def rank():
 
     return resp
 
-@app.route('/admin', methods=['POST', 'GET'])
-def admin():
+@app.route('/add_games', methods=['POST', 'GET'])
+def add_games():
      #If no form submission render normally
      if request.method == 'GET':
-         return render_template('admin.html', message="")
+         return render_template('add_game.html', message="")
 
     #If form submitted try adding game
      if request.method == 'POST':
@@ -210,10 +210,10 @@ def admin():
 
             if college1==college2:
                 print('invalid event details')
-                return render_template('admin.html', message="Invalid event details")
+                return render_template('add_game.html', message="Invalid event details")
         except BadRequestKeyError:
             print('invalid event details')
-            return render_template('admin.html', message="Invalid event details")
+            return render_template('add_game.html', message="Invalid event details")
 
 
         #TODO: Make authentication more secure.
@@ -221,11 +221,43 @@ def admin():
             add_game(location, name, date, college1, college2)
             print("Added Game!")
 
-            return render_template('admin.html', message="Success")
+            return render_template('add_game.html', message="Success")
         else:
             # Redirect or render an error page for incorrect password
             print("Bad password")
-            return render_template('admin.html', message='Incorrect password')
+            return render_template('add_game.html', message='Incorrect password')
+
+
+@app.route('/set_winner', methods=['POST', 'GET'])
+def set_game_winner():
+     #If no form submission render normally
+     if request.method == 'GET':
+         return render_template('set_winner.html', message="")
+
+    #If form submitted try adding game
+     if request.method == 'POST':
+        try:
+            password = request.form['Password']
+            game = request.form['Game_ID']
+            college = request.form['college']
+
+        except BadRequestKeyError:
+            print('invalid event details')
+            return render_template('set_winner.html', message="Invalid event details")
+
+
+        #TODO: Make authentication more secure.
+        if sha256(password.encode('utf-8')).hexdigest() == '19dfbaf67fffd364618132fcfe5b1f7938f5bddd5fe95a9658b7e46d81e14120':
+            if set_winner(college, game):
+                return render_template('set_winner.html', message="Success")
+            else:
+                print('invalid event details')
+                return render_template('set_winner.html', message="Invalid event details")
+        else:
+            # Redirect or render an error page for incorrect password
+            print("Bad password")
+            return render_template('set_winner.html', message='Incorrect password')
+
 
 
 @app.route('/login/', methods=['POST', 'GET'])

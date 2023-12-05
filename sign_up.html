@@ -16,7 +16,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
         crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="text-align: center;">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script style="margin: 0;" src="/static/nav_bar_insert.js"></script>
 
@@ -26,17 +26,23 @@
 
         <!--TODO: Add basic game info with a lookup-->
 
-        <h3>Eligible Players</h3>
-        <ul>
-            {% for team in possible_players %}
-                <li>{{ team[0] }}
-                    <ul>
-                        <li>{{team[1]}}</li>
-                    </ul>
-                </li>
-                
-            {% endfor %}
-        </ul>
+<!--        <h3>Eligible Players</h3>-->
+<!--        <ul>-->
+<!--            {% for team in possible_players %}-->
+<!--                <li>{{ team[0] }}-->
+<!--                    <ul>-->
+<!--                        <li>{{team[1]}}</li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                -->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+          <div>
+              Game ID: {{game_id}}
+              <br>
+              {{possible_players[0][0]}} VS {{possible_players[1][0]}}
+
+          </div>
 
         <form action="/confirm_signup/{{game_id}}" method="post">
             <input type="hidden" name="id" value="{{game_id}}">
@@ -46,7 +52,7 @@
     <br>
 
     <h3>Currently Signed Up to Play:</h3>
-        <table style="width: 20%; margin: 10px;">
+        <table style="width: 20%;   margin: auto;">
             <tr>
     <!--         label, date, agents, classifiers-->
                 <th> # </th>
