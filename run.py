@@ -2,9 +2,11 @@ import argparse
 import sys
 from app import app
 
+#Start Server
 def run_server(port):
     app.run(host='0.0.0.0', port=port, debug=True)
 
+#Port command line processing
 def handle_command_line():
     '''
 
@@ -27,6 +29,7 @@ def handle_command_line():
         sys.exit(1)
     return port
 
+#Driver Function
 def main():
     port=handle_command_line()
     run_server(port)
