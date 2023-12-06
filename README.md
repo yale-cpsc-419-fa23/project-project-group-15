@@ -12,3 +12,6 @@ Currently there is a lack of centralization of Intramural sporting (IM) events a
 * List of players currently signed up
 * College Leaderboard (which college wins the most)
 * IM Secretaries can add events via a GUI
+
+## Running App
+To run this app download all required packages in `requirements.txt` and run `python run.py port`, where `port` is your port number of choice. The app will be accessible at `localhost:port`.
