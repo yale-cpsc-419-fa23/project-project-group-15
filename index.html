@@ -24,39 +24,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/static/nav_bar_insert.js"></script>
 
+    <div class="container mt-5">
+        <form class="text-center p-4" action="/games">
 
-    <form style="text-align: center; padding: 32px;" action="/games">
-        <select id="sport_form" name="sport">
-            <option value="">Select a sport</option>
+            <!-- Sport Search Dropdown -->
+            <select id="sport_form" name="sport">
+                <option value="">Select a sport</option>
+            </select><br><br>
 
-            <!-- Add more options as needed -->
-        </select><br><br>
+            <!-- College Search Dropdown -->
+            <select id="college_form" name="college" value="test">
+                <option value="">Select a college</option>
+            </select>
 
-        <select id="college_form" name="college" value="test">
-            <option value="">Select a college</option>
+            <br><br>
 
-            <!-- Add more options as needed -->
-        </select>
+            <!--Date Search-->
+            <div>
+                <label>Start Date</label>
+                <br>
+                <input type="date" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
+            </div>
 
-        <br><br>
+            <div>
+                <label>End Date</label>
+                <br>
+                <input type="date" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
+            </div>
 
-        <div>
-            <label>Start Date</label>
-            <br>
-            <input type="date" id="date_start_form" name="start_date" placeholder="Start Date" value="{{search_terms.start_date}}"/><br><br>
-        </div>
-
-        <div>
-            <label>End Date</label>
-            <br>
-            <input type="date" id="date_end_form" name="end_date" placeholder="Start End" value="{{search_terms.end_date}}"/><br><br>
-
-        </div>
-
-        <div>
-            <button>Search</button>
-        </div>
-    </form>
+            <div>
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
 
 
   <script>
