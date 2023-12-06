@@ -1,9 +1,13 @@
 /* 
 styles.css
-Written by Brian Di Bassinga (November 2023)
+Written by Dylan and Brian Di Bassinga (November 2023)
 
 Styling for Final Project IM APP
 */
+
+body {
+    font-family: Arial, sans-serif;
+}
 
 /* Apply styles to the select elements */
 select {

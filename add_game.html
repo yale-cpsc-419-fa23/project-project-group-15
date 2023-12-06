@@ -12,9 +12,12 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous">
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
+    crossorigin="anonymous"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
     <!--Check whether event was added, or password was wrong-->
     <script>
@@ -46,7 +49,7 @@
             <input type="text" id="location_form" name="Location" placeholder="Location" value=""/><br><br>
         </div>
 
-
+        <!--Sport Selection-->
         <div>
             <label>Sport</label>
             <br>
@@ -62,8 +65,6 @@
             <option value="Fencing">Fencing</option>
             <option value="Gymnastics">Gymnastics</option>
             <option value="Judo">Judo</option>
-
-            <!-- Add more options as needed -->
             </select><br><br>
         </div>
 
@@ -122,7 +123,7 @@
         </div>
 
         <div>
-            <button type="submit", name="SubmitEvent">Submit Event</button>
+            <button class="btn btn-primary" type="submit", name="SubmitEvent">Submit Event</button>
         </div>
     </form>
 </body>
