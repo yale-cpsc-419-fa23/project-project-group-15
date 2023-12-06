@@ -27,7 +27,7 @@ app.config['CAS_LOGIN_ROUTE']='/cas/login'
 app.config['CAS_AFTER_LOGIN'] = 'cas_testing'
 app.secret_key = secrets.token_urlsafe(16)
 
-
+#Home Page
 @app.route('/')
 def main_page():
     terms = {}
@@ -55,6 +55,7 @@ def main_page():
 
     return render_template('index.html', search_terms=terms)
 
+#Games Page
 @app.route('/games', methods=['POST', 'GET'])
 def games():
 
@@ -86,6 +87,7 @@ def games():
 
     return resp
 
+#Method for fetching games given a search query
 @app.route('/get_events')
 def get_events():
     #Fetch events from database
@@ -126,7 +128,7 @@ def get_events():
 
     return jsonify(events)
 
-#Signup Page
+#Dynamic Signup Page
 @app.route('/sign_up/<game_id>', methods=['POST', 'GET'])
 def signup(game_id):
     possible_players = get_teams(game_id)
@@ -152,8 +154,7 @@ def confirm_signup(game_id):
     #print(test(game_id))
     #print(get_players(game_id))
 
-
-
+#Debugging Page
 @app.route('/cas_testing')
 def cas_testing():
     try:
@@ -161,7 +162,8 @@ def cas_testing():
 
     except KeyError:
         return render_template('cas_testing.html', username='an error occurred retrieving user data')
-    
+
+#
 @app.route("/allgames/", methods=['POST'])
 def move_forward():
     print("all gamescalled")
@@ -170,19 +172,20 @@ def move_forward():
     resp = make_response(render_template('games.html', search_terms=terms))
     return resp
 
-
+#Method to check for low players
 @app.route('/lowplayers', methods=['POST', 'GET'])
 def lowplayers():
-    print("AAAAAAAAAAAAAAAA")
+    #print("AAAAAAAAAAAAAAAA")
 
     #returns game IDs with low players
     games = games_low_players()
     print(games)
 
     resp = make_response(render_template('AAAA.html'))
-    #
+    
     return resp
 
+#Show ranking of colleges with most wins
 @app.route('/rank', methods=['POST', 'GET'])
 def rank():
     ranks = get_college_ranking()
@@ -192,6 +195,7 @@ def rank():
 
     return resp
 
+#
 @app.route('/add_games', methods=['POST', 'GET'])
 def add_games():
      #If no form submission render normally
@@ -259,7 +263,7 @@ def set_game_winner():
             return render_template('set_winner.html', message='Incorrect password')
 
 
-
+#Login via CAS
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
     port = request.host.split(':')[-1]
@@ -288,7 +292,7 @@ def login():
         resp.set_cookie(c, cookies[c])
     return resp
 
-
+#CAS Token Validation
 def validate(ticket):
     port = request.host.split(':')[-1]
 
@@ -308,7 +312,7 @@ def validate(ticket):
     return True
 
 
-
+#Create new user
 @app.route('/new_user/', methods=['POST', 'GET'])
 def add_user():
     colleges = [
@@ -344,13 +348,14 @@ def add_user():
     else:
         return render_template('new_user.html', colleges=colleges)
 
-
+#Navbar Rendering
 @app.route('/navbar/', methods=['POST', 'GET'])
 def navbar():
     # signed_in= "CAS_USERNAME" in session
     # user=get_player_info(session['CAS_USERNAME'])[1] if signed_in else ''
     return render_template('navbar.html')
 
+#Get current username
 @app.route('/login_state')
 def get_login_state():
     signed_in= "CAS_USERNAME" in session
