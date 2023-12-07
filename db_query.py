@@ -15,7 +15,7 @@ def search_games(args):
             terms.append(args['sport'])
 
         if args['college']:
-            where_clause += "UPPER(c_id) LIKE '%' || UPPER(?) || '%' AND "
+            where_clause += "UPPER(GROUP_CONCAT(c_id, ', ')) LIKE '%' || UPPER(?) || '%' AND "
             terms.append(args['college'])
 
         if args['start_time']:
