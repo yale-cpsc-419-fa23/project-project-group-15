@@ -1,0 +1,74 @@
+/* 
+styles.css
+Written by Dylan and Brian Di Bassinga (November 2023)
+
+Styling for Final Project IM APP
+*/
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: whitesmoke;
+}
+
+/* Apply styles to the select elements */
+select {
+    border-radius: 10px; /* Adjust the value to change the roundness */
+    padding: 5px; /* Adjust the value to add padding */
+    font-size: 16px; /* Adjust the value to change the font size */
+    width: 200px; /* Adjust the value to set the width */
+    /* Add other styling properties as needed */
+}
+
+/* Apply styles to the buttons */
+button {
+    border-radius: 20px; /* Adjust the value to make the button round */
+    padding: 10px 20px; /* Adjust the values to add padding */
+    font-size: 16px; /* Adjust the value to change the font size */
+    /* Add other styling properties as needed */
+}
+
+.ranking tr:hover {
+    background-color: lightgrey;
+}
+
+.date-input {
+    margin-right: 10px; /* Adjust spacing between inputs */
+}
+
+/* Custom CSS for styling the dayGridMonth view */
+/* Custom CSS for styling the dayGridMonth view */
+
+/* Set a background color for the month view */
+.fc-dayGridMonth-view {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd; /* Add a border around the month view */
+    border-radius: 12px; /* Apply rounded corners to the month view */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+}
+
+/* Style the day cells within the month view */
+.fc-dayGridMonth-day {
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: background-color 0.3s; /* Add a smooth transition on hover */
+}
+
+/* Highlight the day cell on hover */
+.fc-dayGridMonth-day:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+/* Style the day number inside the day cell */
+.fc-dayGridMonth-day-number {
+    font-size: 1.2em;
+    color: #333333; /* Text color of the date */
+    font-weight: bold;
+}
+
+/* Style the day name (e.g., "Sun", "Mon") inside the day cell */
+.fc-dayGridMonth-day-top {
+    color: rgb(51, 51, 51); /* Text color of the day name */
+    font-size: 0.9em;
+    font-weight: bold;
+}
